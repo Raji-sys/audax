@@ -1,0 +1,766 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AudaxDynamics Enterprises - Enterprise Digital Solutions</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+        background-color: #064a65; /* Deep teal-blue */
+        color: #e2f1f8; /* Soft white text */
+    }
+
+    .gradient-bg {
+        background: linear-gradient(135deg, #0678a5 0%, #183c52 50%, #2d4a5d 100%);
+    }
+
+    .tech-pattern {
+        background-image: 
+            radial-gradient(circle at 25% 25%, rgba(59, 200, 246, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(51, 255, 234, 0.07) 0%, transparent 50%);
+    }
+
+    .card-hover {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        background: rgba(12, 34, 48, 0.4);
+    }
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-color: rgba(0, 255, 255, 0.2);
+    }
+
+    .pulse-glow {
+        animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+        0%, 100% { box-shadow: 0 0 20px rgba(51, 255, 234, 0.2); }
+        50% { box-shadow: 0 0 30px rgba(51, 255, 234, 0.5); }
+    }
+
+    .typing-effect {
+        border-right: 2px solid #66d9ef;
+        animation: typing 3s steps(30), blink 0.8s infinite;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    @keyframes typing {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    @keyframes blink {
+        50% { border-color: transparent; }
+    }
+
+    .floating {
+        animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .tech-grid {
+        background-image: 
+            linear-gradient(rgba(51, 255, 234, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(51, 255, 234, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+    }
+
+    .navbar-blur {
+        backdrop-filter: blur(20px);
+        background: rgba(15, 46, 58, 0.85);
+    }
+
+    a {
+        color: #66d9ef;
+    }
+
+    a:hover {
+        color: #a0f0f5;
+    }
+
+    button {
+        background-color: #1e3a4c;
+        color: #e2f1f8;
+        border: 1px solid #66d9ef;
+    }
+
+    button:hover {
+        background-color: #66d9ef;
+        color: #0f2e3a;
+    }
+</style>
+
+</head>
+<body class="bg-slate-900 text-white">
+<!-- Navigation -->
+<nav class="fixed w-full z-50 navbar-blur border-b border-slate-700/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-br from-blue-500 to-teal-600 rounded-lg flex items-center justify-center p-1">
+                    <img src="{% static 'images/RAJI.png' %}" alt="AudaxDynamics Logo" class="w-12 h-auto object-contain" />
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                    AudaxDynamics
+                </span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="nav-link hover:text-blue-400 transition-colors">Home</a>
+                <a href="#solutions" class="nav-link hover:text-blue-400 transition-colors">Solutions</a>
+                <a href="#technology" class="nav-link hover:text-blue-400 transition-colors">Technology</a>
+                <a href="#about" class="nav-link hover:text-blue-400 transition-colors">About</a>
+                <a href="#contact" class="nav-link hover:text-blue-400 transition-colors">Contact</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-slate-900/95 backdrop-blur-lg rounded-lg mt-2 py-2">
+            <div class="flex flex-col space-y-3 px-4">
+                <a href="#home" class="nav-link hover:text-blue-400 transition-colors py-2">Home</a>
+                <a href="#solutions" class="nav-link hover:text-blue-400 transition-colors py-2">Solutions</a>
+                <a href="#technology" class="nav-link hover:text-blue-400 transition-colors py-2">Technology</a>
+                <a href="#about" class="nav-link hover:text-blue-400 transition-colors py-2">About</a>
+                <a href="#contact" class="nav-link hover:text-blue-400 transition-colors py-2">Contact</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Hero Section -->
+<section id="home" class="min-h-screen gradient-bg tech-pattern flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="space-y-4">
+                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
+                        <span class="block bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                            Enterprise
+                        </span>
+                        <span class="block typing-effect">Digital Solutions</span>
+                    </h1>
+                    <p class="text-xl text-slate-300 max-w-2xl">
+                        Transforming paper-based systems into powerful digital solutions for enterprises and government institutions worldwide.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg font-semibold pulse-glow hover:from-blue-700 hover:to-teal-700 transition-all">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Start Your Digital Transformation
+                    </button>
+                    <button class="px-8 py-4 border border-slate-600 rounded-lg font-semibold hover:border-blue-500 hover:bg-slate-800 transition-all">
+                        <i class="fas fa-play mr-2"></i>
+                        View Our Solutions
+                    </button>
+                </div>
+                <div class="flex items-center space-x-8 text-sm text-slate-400">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-shield-alt text-green-400"></i>
+                        <span>Enterprise Security</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-cloud text-blue-400"></i>
+                        <span>Scalable Architecture</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-cogs text-teal-400"></i>
+                        <span>Custom Solutions</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <div class="tech-grid absolute inset-0 opacity-30"></div>
+                <div class="relative floating">
+                    <div class="w-full h-auto bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 border border-slate-700 shadow-2xl">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex space-x-2">
+                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                </div>
+                                <span class="text-xs text-slate-500">audaxdynamics.com</span>
+                            </div>
+                            <div class="space-y-3 h-full flex items-center justify-center">
+                                <img src="{% static 'images/RAJI.png' %}" alt="AudaxDynamics Logo" class="w-full h-auto object-contain" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Solutions Section -->
+    <section id="solutions" class="py-20 bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                        Complete Digital Ecosystem
+                    </span>
+                </h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    From healthcare to enterprise resource planning, we deliver comprehensive solutions that digitalize your entire operation.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- EMR -->
+                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-hospital text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Electronic Medical Records</h3>
+                    <p class="text-slate-300 mb-6">Comprehensive EMR system with patient management, medical history tracking, and HIPAA compliance for healthcare institutions.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Patient Portal Integration</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Medical History Tracking</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Prescription Management</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Compliance Ready</li>
+                    </ul>
+                </div>
+
+                <!-- EDMS -->
+                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-file-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Document Management</h3>
+                    <p class="text-slate-300 mb-6">Transform paper-based workflows into efficient digital document management systems with advanced search and security.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Digital Archiving</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Workflow Automation</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Version Control</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Access Management</li>
+                    </ul>
+                </div>
+
+                <!-- HRMS -->
+                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Human Resources</h3>
+                    <p class="text-slate-300 mb-6">Complete HRMS solution covering recruitment, payroll, performance management, and employee self-service portals.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Employee Management</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Payroll Processing</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Performance Tracking</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Self-Service Portal</li>
+                    </ul>
+                </div>
+
+                <!-- Inventory -->
+                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-boxes text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Inventory Management</h3>
+                    <p class="text-slate-300 mb-6">Real-time inventory tracking with automated reordering, supplier management, and comprehensive reporting.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Real-Time Tracking</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Automated Reordering</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Supplier Integration</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Analytics Dashboard</li>
+                    </ul>
+                </div>
+
+                <!-- Pharmacy -->
+                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-pills text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Pharmacy Management</h3>
+                    <p class="text-slate-300 mb-6">Complete pharmacy solution with prescription processing, inventory control, and regulatory compliance features.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Prescription Processing</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Drug Interaction Checks</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Insurance Integration</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Regulatory Compliance</li>
+                    </ul>
+                </div>
+
+                <!-- ERP -->
+                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
+                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Enterprise Resource Planning</h3>
+                    <p class="text-slate-300 mb-6">Integrated ERP solution connecting all business processes from finance to operations in one unified platform.</p>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Financial Management</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Supply Chain Integration</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Business Intelligence</li>
+                        <li><i class="fas fa-check text-green-400 mr-2"></i>Multi-Department Sync</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-16">
+                <div class="inline-flex items-center space-x-4 bg-gradient-to-r from-blue-900/50 to-teal-900/50 rounded-2xl p-8 border border-blue-500/20">
+                    <i class="fas fa-magic text-3xl text-blue-400"></i>
+                    <div class="text-left">
+                        <h3 class="text-xl font-bold">Custom Digitalization</h3>
+                        <p class="text-slate-300">Any paper-based system can be transformed into a powerful digital solution</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section id="technology" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                        Enterprise-Grade Technology
+                    </span>
+                </h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    Built on modern, scalable technologies that ensure security, performance, and reliability for mission-critical applications.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-python text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">Django Framework</h3>
+                            <p class="text-slate-400 text-sm">Python-based backend</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300">Robust, secure, and scalable web framework perfect for enterprise applications with built-in security features.</p>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-css3-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">Tailwind CSS</h3>
+                            <p class="text-slate-400 text-sm">Modern styling</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300">Utility-first CSS framework enabling rapid development of beautiful, responsive interfaces.</p>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-font-awesome text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">FontAwesome</h3>
+                            <p class="text-slate-400 text-sm">Icon library</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300">Comprehensive icon library providing professional visual elements for intuitive user interfaces.</p>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center">
+                            <i class="fab fa-js-square text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">jQuery & Vanilla JS</h3>
+                            <p class="text-slate-400 text-sm">Interactive frontend</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300">Powerful JavaScript libraries for creating dynamic, responsive user experiences and seamless interactions.</p>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-database text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">Database Systems</h3>
+                            <p class="text-slate-400 text-sm">Enterprise storage</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300">Scalable database solutions optimized for enterprise workloads with backup and recovery systems.</p>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">Security First</h3>
+                            <p class="text-slate-400 text-sm">Enterprise security</p>
+                        </div>
+                    </div>
+                    <p class="text-slate-300">Multi-layered security architecture with encryption, authentication, and compliance standards.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                        <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                            About AudaxDynamics
+                        </span>
+                    </h2>
+                    <div class="space-y-6 text-lg text-slate-300">
+                        <p>
+                            AudaxDynamics Enterprises specializes in transforming traditional paper-based systems into powerful, 
+                            secure digital solutions that drive efficiency and growth for enterprises and government institutions.
+                        </p>
+                        <p>
+                            With expertise spanning healthcare, human resources, inventory management, and enterprise resource planning, 
+                            we deliver comprehensive digital transformation services that meet the highest standards of security and compliance.
+                        </p>
+                        <p>
+                            Our mission is to eliminate inefficiencies in organizational workflows by providing robust, 
+                            scalable technology solutions that adapt to your specific business requirements.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-8 mt-10">
+                        <div>
+                            <div class="text-3xl font-bold text-blue-400 mb-2">100+</div>
+                            <div class="text-slate-300">Systems Digitalized</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-teal-400 mb-2">50+</div>
+                            <div class="text-slate-300">Enterprise Clients</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-green-400 mb-2">99.9%</div>
+                            <div class="text-slate-300">System Uptime</div>
+                        </div>
+                        <div>
+                            <div class="text-3xl font-bold text-orange-400 mb-2">24/7</div>
+                            <div class="text-slate-300">Support Available</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 border border-slate-700">
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-building text-2xl text-blue-400"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Enterprise Focus</h4>
+                                    <p class="text-slate-400">Large-scale solutions for complex organizations</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-university text-2xl text-teal-400"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Government Ready</h4>
+                                    <p class="text-slate-400">Compliance and security for public sector</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-heartbeat text-2xl text-red-400"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Healthcare Expertise</h4>
+                                    <p class="text-slate-400">HIPAA compliant medical systems</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-cog text-2xl text-green-400"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold">Custom Solutions</h4>
+                                    <p class="text-slate-400">Tailored to your specific requirements</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                        Start Your Digital Transformation
+                    </span>
+                </h2>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
+                    Ready to transform your paper-based systems? Let's discuss how AudaxDynamics can digitalize your operations.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-6">Get in Touch</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Email</h4>
+                                    <p class="text-slate-300">contact@audaxdynamics.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-phone text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Phone</h4>
+                                    <p class="text-slate-300">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold">Office</h4>
+                                    <p class="text-slate-300">Enterprise District, Tech Hub</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Why Choose AudaxDynamics?</h4>
+                        <ul class="space-y-3 text-slate-300">
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Proven track record with enterprise clients</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Full-stack development capabilities</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Government-grade security standards</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <i class="fas fa-check-circle text-green-400"></i>
+                                <span>Ongoing support and maintenance</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700">
+                    <h3 class="text-2xl font-bold mb-6">Request Consultation</h3>
+                    <div class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">First Name</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Enter your first name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-300 mb-2">Last Name</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Enter your last name">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="your.email@company.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Organization</label>
+                            <input type="text" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Your organization name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">System Type</label>
+                            <select class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white">
+                                <option>Select system to digitalize</option>
+                                <option>Healthcare/Medical Records</option>
+                                <option>Document Management</option>
+                                <option>Human Resources</option>
+                                <option>Inventory Management</option>
+                                <option>Enterprise Resource Planning</option>
+                                <option>Custom Solution</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-300 mb-2">Project Details</label>
+                            <textarea rows="4" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Tell us about your current system and digitalization needs..."></textarea>
+                        </div>
+                        <button class="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg font-semibold hover:from-blue-700 hover:to-teal-700 transition-all pulse-glow">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Request Consultation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-code text-white text-lg"></i>
+                        </div>
+                        <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+                            AudaxDynamics
+                        </span>
+                    </div>
+                    <p class="text-slate-300 mb-6 max-w-md">
+                        Transforming enterprises through digital innovation. We specialize in converting paper-based systems into powerful digital solutions.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-linkedin text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-twitter text-white"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-github text-white"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Solutions</h4>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Electronic Medical Records</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Document Management</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Human Resources</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Inventory Management</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Enterprise Resource Planning</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-slate-300">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Our Technology</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Case Studies</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-400 text-sm">
+                    © 2025 AudaxDynamics Enterprises. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-slate-400 hover:text-blue-400 text-sm transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-slate-400 hover:text-blue-400 text-sm transition-colors">Terms of Service</a>
+                    <a href="#" class="text-slate-400 hover:text-blue-400 text-sm transition-colors">Security</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    $(document).ready(function() {
+        // Mobile menu toggle
+        $('#mobile-menu-button').click(function() {
+            $('#mobile-menu').slideToggle(200);
+            $(this).find('i').toggleClass('fa-bars fa-times');
+        });
+        
+        // Close mobile menu when clicking a link
+        $('.nav-link').click(function() {
+            if ($(window).width() < 768) {
+                $('#mobile-menu').slideUp(200);
+                $('#mobile-menu-button').find('i').removeClass('fa-times').addClass('fa-bars');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        $('.nav-link').on('click', function(e) {
+            e.preventDefault();
+            const target = $(this.getAttribute('href'));
+            if (target.length) {
+                $('html, body').animate({
+                    scrollTop: target.offset().top - 80
+                }, 1000);
+            }
+        });
+
+        // Navbar scroll effect
+        $(window).scroll(function() {
+            if ($(window).scrollTop() > 50) {
+                $('nav').addClass('bg-slate-900/95');
+            } else {
+                $('nav').removeClass('bg-slate-900/95');
+            }
+        });
+
+        // Form submission
+        $('button:contains("Request Consultation")').on('click', function(e) {
+            e.preventDefault();
+            alert('Thank you for your interest! We will contact you within 24 hours to schedule your consultation.');
+        });
+
+        // Hero button actions
+        $('button:contains("Start Your Digital Transformation")').on('click', function(e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $('#contact').offset().top - 80
+            }, 1000);
+        });
+
+        $('button:contains("View Our Solutions")').on('click', function(e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $('#solutions').offset().top - 80
+            }, 1000);
+        });
+
+        // Add loading animation to cards
+        $('.card-hover').each(function(index) {
+            $(this).css('animation-delay', (index * 0.1) + 's');
+        });
+    });
+</script>
+
+</body>
+</html>
+{%endblock%}

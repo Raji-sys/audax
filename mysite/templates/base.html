@@ -1,0 +1,197 @@
+{% load static %}
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% tailwind_css %}
+    <title>{% block title %}Inventory Management{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="{% static 'fontawesomefree/css/fontawesome.css' %}" type='text/css'>
+    <link rel="stylesheet" href="{% static 'fontawesomefree/css/solid.css' %}" type='text/css'>
+    <link rel="stylesheet" href="{% static 'fontawesomefree/css/brands.css' %}" type="text/css"> -->
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- UIkit CSS -->
+<link rel="stylesheet" href="{% static 'uikit/css/uikit.min.css' %}" type="text/css">
+
+<!-- UIkit JS -->
+<script src="{% static 'uikit/js/uikit.min.js' %}"></script>
+<script src="{% static 'uikit/js/uikit-icons.js' %}"></script>
+</head>
+    <style>
+      a{
+          text-decoration: none;
+      }
+      a:hover{
+          text-decoration: none;
+      }	
+  /* For WebKit browsers (Chrome, Safari) */
+  ::-webkit-scrollbar {
+      width: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+      background: #4a90e2;
+      border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+  }
+  
+  /* For Firefox */
+  * {
+      scrollbar-width: auto;
+      scrollbar-color: #4a90e2 #f1f1f1;
+  }
+  
+    </style>
+<body class="bg-gradient-to-r from-blue-50 to-sky-50 min-h-screen flex flex-col">
+    <header class="bg-gradient-to-r from-green-800 to-sky-600 shadow-lg">
+        <nav class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4">
+                    {% if request.user.is_authenticated %}
+                    <a href="/" class="text-white hover:text-green-200 font-semibold transition duration-300 text-sm">
+                        <i class="fa fa-solid fa-home-alt fa-2x"></i>
+                    </a>
+                    <span class="text-white text-xs">
+                        welcome, <strong class="uppercase">{{ request.user.first_name|default:request.user.username }} {{ request.user.last_name|default:'' }}</strong>
+                    </span>
+               {%if request.user.is_superuser and request.user.username == 'admin'%} <a href="{% url 'admin:index' %}" class="text-white hover:text-green-200 transition duration-300 text-xs border-b-2">Control Panel</a>{%endif%}
+                {%endif%}
+                </div>
+                <div class="hidden md:flex items-center space-x-4 uppercase text-xs">
+                    {% if request.user.is_authenticated and request.path != "/" %}
+                    <a href="{% url 'list' %}" class="text-white hover:text-green-200 transition duration-300 border-b-2 border-transparent hover:border-white"><span class="">INVENTORY</span></a>
+                    <a href="{% url 'record' %}" class="text-white hover:text-green-200 transition duration-300 border-b-2 border-transparent hover:border-white"><span class="">Record</span></a>
+                    <a href="{% url 'restocked' %}" class="text-white hover:text-green-200 transition duration-300 border-b-2 border-transparent hover:border-white"><span class="">Restock</span></a>
+                    {%if request.user.is_superuser  %}
+                    <a href="{% url 'worth' %}" class="text-white hover:text-green-200 transition duration-300 border-b-2 border-transparent hover:border-white">
+                        <span class="">value</span></a> {%endif%}
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                    <form method="POST" action="{% url 'logout' %}" >
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-600 hover:bg-white hover:text-red-600 hover:border hover:border-rose-600 uppercase text-white px-4 py-2 shadow-md hover:shadow-lg rounded-lg text-xs">
+                            <i class="fa-solid fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
+                <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="md:hidden hidden uppercase text-xs" id="mobile-menu">
+                {% if request.user.is_authenticated and request.path != "/" %}
+                <a href="{% url 'list' %}" class="block py-2 text-white hover:text-green-200 transition duration-300"><span class="">
+                    INVENTORY
+                </span> 
+                </a>
+
+                <a href="{% url 'record' %}" class="text-white hover:text-green-200 transition duration-300 border-b-2 border-transparent hover:border-white"><span class="">
+                    Record
+                </span>
+                </a>
+                <a href="{% url 'restocked' %}" class="text-white hover:text-green-200 transition duration-300 border-b-2 border-transparent hover:border-white"><span class="">
+                    Restock
+                </span>
+                </a>
+                <a href="{% url 'worth' %}" class="block py-2 text-white hover:text-green-200 transition duration-300"><span class="">
+                    value
+                </span>
+                </a>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}" >
+                    {% csrf_token %}
+                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 transition duration-300 shadow-md hover:shadow-lg rounded-lg text-xs m-2">
+                        <i class="fa-solid fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'signin' %}" class="block py-2 text-xs text-white hover:text-green-200 transition duration-300">
+                    <i class="fa-solid fa-sign-in-alt mr-2"></i>Sign In
+                </a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow container mx-auto px-2">
+        {% if messages %}
+        <div class="rounded-md bg-green-50 p-2 m-2 w-fit mx-auto" uk-alert>
+            <a href class="uk-alert-close " uk-close></a>
+                    <div class="text-sm text-green-600" role="alert">
+                            {% for message in messages %}
+                                <p class=" text-center uppercase text-blue-700"> <i class="fa-solid fa-message fa-2x text-blue-500"></i> <br>{{ message }}</p>
+                            {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+        {% block content %}
+        
+        {% endblock %}
+        
+    </main>
+
+    <div id="session-modal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6 text-center">
+            <div class="text-yellow-500 text-4xl">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h2 class="mt-4 text-lg font-semibold text-gray-800">
+                Session Expiring Soon
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Your session will expire in <span id="time-left" class="font-bold">1 minute</span>. Please save your work or refresh the page to stay logged in.
+            </p>
+            <div class="mt-4">
+                <button id="stay-logged-in" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    Stay Logged In
+                </button>
+            </div>
+        </div>
+    </div>
+        
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        const sessionAge = 60 * 60 * 1000; // 15 minutes in milliseconds
+        const warningTime = sessionAge - 120000; // Show warning 2 minutes before expiration
+
+        const modal = document.getElementById("session-modal");
+        const timeLeftSpan = document.getElementById("time-left");
+        const stayLoggedInButton = document.getElementById("stay-logged-in");
+
+    // Show modal 1 minute before session expires
+    setTimeout(() => {
+        modal.classList.remove("hidden");
+        startCountdown(60); // Start countdown (60 seconds)
+    }, warningTime);
+
+    // Refresh the page when the user clicks "Stay Logged In"
+    stayLoggedInButton.addEventListener("click", () => {
+        location.reload(); // Reload to keep the session active
+    });
+
+    // Countdown timer inside the modal
+    function startCountdown(seconds) {
+        let timeLeft = seconds;
+        const countdown = setInterval(() => {
+            timeLeft -= 1;
+            timeLeftSpan.textContent = `${timeLeft} second${timeLeft > 1 ? "s" : ""}`;
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                // Optionally log out the user if no action is taken
+                window.location.href = "/logout/"; // Adjust the logout URL if needed
+            }
+        }, 1000);
+    }
+    </script>
+</body>
+
+</html>

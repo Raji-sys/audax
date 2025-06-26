@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}ACCESS DENIED{% endblock %}
+{% load static %}
+{% block content %}
+  <div class="container shadow-2xl mx-auto bg-black p-16 rounded-xl text-center w-fit mt-10">
+    <i class="fa-solid fa-lock fa-10x text-red-600 p-4 fa-warning"></i>
+        <p class="uppercase text-teal-400 font-bold text-2xl p-2">
+     <span class="mb-4 text-white">
+       {{ request.user.first_name|default:request.user.username }} {{ request.user.last_name|default:'' }} 
+      </span> <br>
+      your request is denied!
+    </p>
+    <p class="text-lg font-semibold m-4 text-red-300 uppercase">
+      because your action here might cause stock quantity to be altered.
+    </p>
+
+    <p class="text-sm font-semibold m-4 border-b-2 border-zinc-700 text-green-700">
+      CONTACT YOUR HEAD OF DEPARTMENT FOR ACCESS!
+    </p>
+    <a href="javascript:history.back()" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+      GO BACK
+    </a>
+  </div>
+{% endblock %}
