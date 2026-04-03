@@ -30,7 +30,7 @@ INSTALLED_APPS = [
 ]
 
 if DEBUG:
-    INSTALLED_APPS += ['django_browser_reload','debug_toolbar','django_fastdev']
+    INSTALLED_APPS += ['django_browser_reload','django_fastdev']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
