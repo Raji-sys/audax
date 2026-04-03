@@ -1,20 +1,20 @@
 
+import os
 from pathlib import Path
+import dj_database_url
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
+# ---------------------------------------------------------------------------
+# Security
+# ---------------------------------------------------------------------------
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tm07pa1f^frm-p*d$anv*(9y4=d%_9w0!nb=gips5a-@2kqeu8'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ['django_browser_reload','debug_toolbar','django_fastdev']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,17 +61,37 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'audax.wsgi.application'
+INTERNAL_IPS = ['127.0.0.1']
 
-
+# ---------------------------------------------------------------------------
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# ---------------------------------------------------------------------------
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('PGDATABASE'),
+            'USER': os.environ.get('PGUSER'),
+            'PASSWORD': os.environ.get('PGPASSWORD'),
+            'HOST': os.environ.get('PGHOST', 'localhost'),
+            'PORT': os.environ.get('PGPORT', '5432'),
+            'CONN_MAX_AGE': 600,
+            'CONN_HEALTH_CHECKS': True,
+            'OPTIONS': {
+                'connect_timeout': 10,
+            },
+        }
+    }
 
 
 # Password validation
@@ -90,26 +113,45 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
+# Localisation — Nigeria
+# ---------------------------------------------------------------------------
+LANGUAGE_CODE = 'en-gb'
+TIME_ZONE = 'Africa/Lagos'
+USE_I18N = False
 USE_TZ = True
+USE_L10N = True
+USE_THOUSAND_SEPARATOR = True
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+DATETIME_INPUT_FORMATS = ['%d-%m-%Y %H:%M:%S', '%d-%m-%Y']
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
+# ---------------------------------------------------------------------------
+# Tailwind
+# ---------------------------------------------------------------------------
+TAILWIND_APP_NAME = 'theme'
+NPM_BIN_PATH = os.environ.get('NPM_BIN_PATH', 'npm')
 
-STATIC_URL = 'static/'
+LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+# ---------------------------------------------------------------------------
+# Static + Media
+# ---------------------------------------------------------------------------
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
+
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedStaticFilesStorage'
+    if not DEBUG
+    else 'django.contrib.staticfiles.storage.StaticFilesStorage'
+)
+
+WHITENOISE_MAX_AGE = 0 if DEBUG else 31536000
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
