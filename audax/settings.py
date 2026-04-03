@@ -35,6 +35,7 @@ if DEBUG:
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -146,7 +147,6 @@ STATICFILES_STORAGE = (
     if not DEBUG
     else 'django.contrib.staticfiles.storage.StaticFilesStorage'
 )
-
 WHITENOISE_MAX_AGE = 0 if DEBUG else 31536000
 
 MEDIA_URL = '/media/'
