@@ -1,0 +1,18 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Delete {{ type }}{% endblock %}
+{% block page_title %}Delete {{ type }}{% endblock %}
+
+{% block content %}
+<div class="section-card" style="max-width:480px;">
+  <p style="font-size:14px; color:#c0d8e8; margin-bottom:20px;">
+    Are you sure you want to permanently delete this {{ type }}?
+    <br><strong style="color:#fff;">{{ object }}</strong>
+  </p>
+  <p style="font-size:13px; color:#e07070; margin-bottom:24px;">This action cannot be undone.</p>
+  <form method="POST" style="display:flex; gap:12px;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="javascript:history.back()" class="btn btn-light">Cancel</a>
+  </form>
+</div>
+{% endblock %}

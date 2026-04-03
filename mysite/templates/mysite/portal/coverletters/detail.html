@@ -1,0 +1,58 @@
+{% extends 'mysite/documents/letterhead_base.html' %}
+{% load static %}
+
+{% block doc_title %}Cover Letter — {{ letter.client }}{% endblock %}
+{% block doc_ref %}{{ letter.letter_ref }}{% endblock %}
+
+{% block toolbar_buttons %}
+  <a href="{% url 'coverletter_edit' letter.pk %}" class="btn-edit">✏ Edit</a>
+{% endblock %}
+
+{% block doc_body %}
+
+  <!-- Date & Reference -->
+  <div style="text-align:right; font-size:13px; color:#555; margin-bottom:28px; line-height:2;">
+    <div>{{ letter.issue_date|date:"d F Y" }}</div>
+    {% if letter.reference %}<div><em>{{ letter.reference }}</em></div>{% endif %}
+  </div>
+
+  <!-- To block -->
+  <div style="margin-bottom:28px; font-size:13px; line-height:1.9;">
+    <strong>To:</strong><br>
+    {{ letter.client.name }}<br>
+    {% if letter.client.company %}<strong>{{ letter.client.company }}</strong><br>{% endif %}
+    {% if letter.client.address %}{{ letter.client.address }}<br>{% endif %}
+    {% if letter.client.email %}{{ letter.client.email }}{% endif %}
+  </div>
+
+  <!-- Subject -->
+  <div style="margin-bottom:22px; font-size:14px;">
+    <strong>Subject: {{ letter.subject }}</strong>
+  </div>
+
+  <hr style="border:none; border-top:1px solid #ddd; margin-bottom:22px;">
+
+  <!-- Salutation -->
+  <div style="font-size:13px; margin-bottom:18px;">Dear Sir/Madam,</div>
+
+  <!-- Body -->
+  <div style="font-size:13px; line-height:1.9; color:#222; margin-bottom:28px;">
+    {{ letter.body|linebreaksbr }}
+  </div>
+
+  <!-- Closing -->
+  <div style="font-size:13px; line-height:1.9; color:#222; margin-bottom:40px;">
+    {{ letter.closing }}
+  </div>
+
+  <!-- Signature block -->
+  <div style="font-size:13px; line-height:2;">
+    <div>Yours faithfully,</div>
+    <div style="margin-top:40px; border-top:1px solid #333; width:200px; padding-top:6px;">
+      <strong>AudaxDynamics Enterprise</strong><br>
+      <span style="color:#555;">BN: 7975559</span><br>
+      <span style="color:#555;">0906-126-7856</span>
+    </div>
+  </div>
+
+{% endblock %}

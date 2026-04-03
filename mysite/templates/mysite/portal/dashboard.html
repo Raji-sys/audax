@@ -1,0 +1,96 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block topbar_actions %}
+  <div style="display:flex; gap:10px;">
+    <a href="{% url 'invoice_create' %}" class="btn btn-primary">+ Invoice</a>
+    <a href="{% url 'proposal_create' %}" class="btn btn-light">+ Proposal</a>
+  </div>
+{% endblock %}
+
+{% block content %}
+
+<!-- Stats -->
+<div class="stat-grid">
+  <div class="stat-card">
+    <div class="label">Clients</div>
+    <div class="value">{{ client_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Invoices</div>
+    <div class="value">{{ invoice_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Quotations</div>
+    <div class="value">{{ quotation_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Proposals</div>
+    <div class="value">{{ proposal_count }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Blog Posts</div>
+    <div class="value">{{ post_count }}</div>
+  </div>
+</div>
+
+<!-- Quick create -->
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+
+  <div class="section-card">
+    <h3>Recent Invoices</h3>
+    {% if recent_invoices %}
+    <table class="portal-table">
+      <thead><tr><th>Ref</th><th>Client</th><th>Status</th><th>Total</th></tr></thead>
+      <tbody>
+        {% for inv in recent_invoices %}
+        <tr>
+          <td><a href="{% url 'invoice_detail' inv.pk %}">{{ inv.invoice_number }}</a></td>
+          <td>{{ inv.client.name }}</td>
+          <td><span class="badge badge-{{ inv.status }}">{{ inv.get_status_display }}</span></td>
+          <td>₦{{ inv.total|floatformat:0 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color:#4a7090; font-size:13px;">No invoices yet. <a href="{% url 'invoice_create' %}">Create one</a></p>
+    {% endif %}
+  </div>
+
+  <div class="section-card">
+    <h3>Draft Blog Posts</h3>
+    {% if draft_posts %}
+    <table class="portal-table">
+      <thead><tr><th>Title</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for post in draft_posts %}
+        <tr>
+          <td>{{ post.title|truncatechars:40 }}</td>
+          <td><a href="{% url 'blog_edit' post.pk %}">Edit</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color:#4a7090; font-size:13px;">No drafts. <a href="{% url 'blog_create' %}">Write a post</a></p>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- Quick links -->
+<div class="section-card">
+  <h3>Quick Create</h3>
+  <div style="display:flex; flex-wrap:wrap; gap:10px;">
+    <a href="{% url 'invoice_create' %}"     class="btn btn-light"><i class="fas fa-file-invoice" style="margin-right:6px;"></i>New Invoice</a>
+    <a href="{% url 'quotation_create' %}"   class="btn btn-light"><i class="fas fa-file-alt" style="margin-right:6px;"></i>New Quotation</a>
+    <a href="{% url 'proposal_create' %}"    class="btn btn-light"><i class="fas fa-file-contract" style="margin-right:6px;"></i>New Proposal</a>
+    <a href="{% url 'coverletter_create' %}" class="btn btn-light"><i class="fas fa-envelope" style="margin-right:6px;"></i>New Cover Letter</a>
+    <a href="{% url 'client_create' %}"      class="btn btn-light"><i class="fas fa-user-plus" style="margin-right:6px;"></i>New Client</a>
+    <a href="{% url 'blog_create' %}"        class="btn btn-light"><i class="fas fa-pen" style="margin-right:6px;"></i>New Blog Post</a>
+  </div>
+</div>
+
+{% endblock %}

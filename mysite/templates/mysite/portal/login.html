@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Portal Access</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a1828;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e2f1f8;
+    }
+    .login-box {
+      width: 360px;
+      background: #0f2030;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 36px 32px;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .logo-row img { width: 44px; height: auto; }
+    .logo-row span { font-size: 15px; font-weight: 700; color: #66d9ef; }
+
+    h2 { font-size: 18px; color: #fff; margin-bottom: 6px; }
+    p { font-size: 13px; color: #4a7090; margin-bottom: 24px; }
+
+    label { display:block; font-size:11px; color:#4a7090; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+    input {
+      width:100%; padding:10px 14px; background:#0a1828;
+      border:1px solid rgba(255,255,255,0.1); border-radius:6px;
+      color:#e2f1f8; font-size:14px; margin-bottom:16px;
+    }
+    input:focus { outline:none; border-color:#66d9ef; }
+    button {
+      width:100%; padding:11px; background:#1a6a8a; color:#fff;
+      border:none; border-radius:6px; font-size:14px; cursor:pointer;
+      font-weight:600;
+    }
+    button:hover { background:#1e7a9a; }
+    .error { background:rgba(122,30,30,0.3); border:1px solid #7a1e1e; color:#e07070; padding:10px 14px; border-radius:6px; font-size:13px; margin-bottom:16px; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="logo-row">
+      <img src="{% static 'images/RAJI.png' %}" alt="Logo">
+      <span>AudaxDynamics</span>
+    </div>
+    <h2>Portal Access</h2>
+    <p>Enter your credentials to continue.</p>
+
+    {% if messages %}
+      {% for msg in messages %}
+      <div class="error">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'portal_login' %}">
+      {% csrf_token %}
+      <label>Username</label>
+      <input type="text" name="username" autofocus required>
+      <label>Password</label>
+      <input type="password" name="password" required>
+      <button type="submit">Access Portal</button>
+    </form>
+  </div>
+</body>
+</html>

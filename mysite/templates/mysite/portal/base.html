@@ -1,0 +1,209 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Portal{% endblock %} — AudaxDynamics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background:#0f2030; color:#e2f1f8; display:flex; min-height:100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px; min-height:100vh; background:#0a1828;
+      border-right:1px solid rgba(255,255,255,0.07);
+      display:flex; flex-direction:column; flex-shrink:0;
+    }
+    .sidebar-logo {
+      padding:18px 16px; border-bottom:1px solid rgba(255,255,255,0.07);
+      display:flex; align-items:center; gap:10px;
+    }
+    .sidebar-logo img { width:38px; height:auto; }
+    .sidebar-logo span { font-size:13px; font-weight:700; color:#66d9ef; line-height:1.3; }
+
+    .sidebar nav { flex:1; padding:12px 0; }
+    .nav-group { padding:10px 16px 4px; font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:#4a7090; }
+
+    .sidebar a {
+      display:flex; align-items:center; gap:10px;
+      padding:9px 16px; font-size:13px; color:#a0c4d8;
+      text-decoration:none; transition:all 0.2s;
+      border-left:3px solid transparent;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      color:#fff; background:rgba(102,217,239,0.08);
+      border-left-color:#66d9ef;
+    }
+    .sidebar a i { width:16px; text-align:center; font-size:13px; }
+
+    .sidebar-footer {
+      padding:14px 16px; border-top:1px solid rgba(255,255,255,0.07);
+      font-size:12px; color:#4a7090;
+    }
+    .sidebar-footer a { color:#c0392b; text-decoration:none; font-size:12px; }
+
+    /* MAIN */
+    .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+    .topbar {
+      background:#0a1828; border-bottom:1px solid rgba(255,255,255,0.07);
+      padding:14px 24px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .topbar h1 { font-size:16px; font-weight:600; color:#fff; }
+    .topbar .breadcrumb { font-size:12px; color:#4a7090; }
+
+    .content { padding:24px; flex:1; overflow-y:auto; }
+
+    /* CARDS */
+    .stat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; margin-bottom:28px; }
+    .stat-card {
+      background:#0a1828; border:1px solid rgba(255,255,255,0.08);
+      border-radius:10px; padding:18px 20px;
+    }
+    .stat-card .label { font-size:11px; color:#4a7090; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+    .stat-card .value { font-size:28px; font-weight:700; color:#66d9ef; }
+
+    /* TABLE */
+    .portal-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .portal-table thead tr { background:rgba(255,255,255,0.04); }
+    .portal-table thead th { padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:1px; color:#4a7090; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .portal-table tbody tr { border-bottom:1px solid rgba(255,255,255,0.04); }
+    .portal-table tbody tr:hover { background:rgba(255,255,255,0.03); }
+    .portal-table tbody td { padding:11px 14px; color:#c0d8e8; }
+    .portal-table tbody td a { color:#66d9ef; text-decoration:none; }
+
+    /* FORM */
+    .portal-form { max-width:780px; }
+    .form-group { margin-bottom:18px; }
+    .form-group label { display:block; font-size:12px; color:#4a7090; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width:100%; padding:9px 12px;
+      background:#0a1828; border:1px solid rgba(255,255,255,0.1);
+      border-radius:6px; color:#e2f1f8; font-size:13px; font-family:inherit;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline:none; border-color:#66d9ef;
+    }
+    .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+    /* BUTTONS */
+    .btn { padding:9px 20px; border-radius:6px; font-size:13px; cursor:pointer; border:none; font-family:inherit; text-decoration:none; display:inline-block; }
+    .btn-primary  { background:#1a6a8a; color:#fff; }
+    .btn-success  { background:#1e7a4a; color:#fff; }
+    .btn-danger   { background:#7a1e1e; color:#fff; }
+    .btn-light    { background:rgba(255,255,255,0.1); color:#e2f1f8; }
+    .btn:hover    { opacity:0.85; }
+
+    /* SECTION CARD */
+    .section-card {
+      background:#0a1828; border:1px solid rgba(255,255,255,0.07);
+      border-radius:10px; padding:20px 24px; margin-bottom:24px;
+    }
+    .section-card h3 { font-size:14px; color:#66d9ef; margin-bottom:16px; }
+
+    /* MESSAGES */
+    .messages { margin-bottom:18px; }
+    .message { padding:10px 16px; border-radius:6px; font-size:13px; margin-bottom:8px; }
+    .message.success { background:rgba(30,122,74,0.3); border:1px solid #1e7a4a; color:#6fe0a0; }
+    .message.error   { background:rgba(122,30,30,0.3); border:1px solid #7a1e1e; color:#e07070; }
+
+    /* STATUS BADGES */
+    .badge { padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+    .badge-draft    { background:rgba(127,140,141,0.2); color:#95a5a6; }
+    .badge-sent     { background:rgba(41,128,185,0.2); color:#5dade2; }
+    .badge-paid,
+    .badge-accepted { background:rgba(39,174,96,0.2); color:#58d68d; }
+    .badge-overdue,
+    .badge-declined,
+    .badge-rejected { background:rgba(192,57,43,0.2); color:#e74c3c; }
+    .badge-void,
+    .badge-expired  { background:rgba(230,126,34,0.2); color:#e67e22; }
+
+    /* FORMSET */
+    .formset-row {
+      display:grid; grid-template-columns:1fr 80px 140px auto;
+      gap:10px; align-items:end; margin-bottom:10px;
+    }
+    .formset-header {
+      display:grid; grid-template-columns:1fr 80px 140px auto;
+      gap:10px; font-size:10px; text-transform:uppercase; letter-spacing:1px;
+      color:#4a7090; margin-bottom:6px; padding:0 2px;
+    }
+    .delete-check { display:flex; align-items:center; gap:6px; font-size:12px; color:#e07070; }
+  </style>
+  {% block extra_styles %}{% endblock %}
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <img src="{% static 'images/RAJI.png' %}" alt="Logo">
+    <span>AudaxDynamics<br>Portal</span>
+  </div>
+  <nav>
+    <div class="nav-group">Main</div>
+    <a href="{% url 'portal_dashboard' %}" class="{% if request.resolver_match.url_name == 'portal_dashboard' %}active{% endif %}">
+      <i class="fas fa-th-large"></i> Dashboard
+    </a>
+
+    <div class="nav-group">Documents</div>
+    <a href="{% url 'invoice_list' %}" class="{% if 'invoice' in request.resolver_match.url_name %}active{% endif %}">
+      <i class="fas fa-file-invoice"></i> Invoices
+    </a>
+    <a href="{% url 'quotation_list' %}" class="{% if 'quotation' in request.resolver_match.url_name %}active{% endif %}">
+      <i class="fas fa-file-alt"></i> Quotations
+    </a>
+    <a href="{% url 'proposal_list' %}" class="{% if 'proposal' in request.resolver_match.url_name %}active{% endif %}">
+      <i class="fas fa-file-contract"></i> Proposals
+    </a>
+    <a href="{% url 'coverletter_list' %}" class="{% if 'coverletter' in request.resolver_match.url_name %}active{% endif %}">
+      <i class="fas fa-envelope-open-text"></i> Cover Letters
+    </a>
+
+    <div class="nav-group">Content</div>
+    <a href="{% url 'blog_manage' %}" class="{% if 'blog' in request.resolver_match.url_name %}active{% endif %}">
+      <i class="fas fa-pen-nib"></i> Blog Posts
+    </a>
+
+    <div class="nav-group">Clients</div>
+    <a href="{% url 'client_list' %}" class="{% if 'client' in request.resolver_match.url_name %}active{% endif %}">
+      <i class="fas fa-users"></i> Clients
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="{% url 'portal_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div>
+      <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+      <div class="breadcrumb">{% block breadcrumb %}{% endblock %}</div>
+    </div>
+    {% block topbar_actions %}{% endblock %}
+  </div>
+
+  <div class="content">
+    {% if messages %}
+    <div class="messages">
+      {% for msg in messages %}
+      <div class="message {{ msg.tags }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+</body>
+</html>

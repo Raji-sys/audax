@@ -1,0 +1,52 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block breadcrumb %}Invoices / {{ title }}{% endblock %}
+
+{% block content %}
+<div class="section-card portal-form" style="max-width:100%;">
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="form-grid-2" style="margin-bottom:18px;">
+      {% for field in form %}
+      <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<div style="color:#e07070; font-size:12px;">{{ field.errors }}</div>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+
+    <hr style="border:none; border-top:1px solid rgba(255,255,255,0.08); margin:20px 0;">
+    <h3 style="font-size:13px; color:#66d9ef; margin-bottom:14px;">Line Items</h3>
+    {{ formset.management_form }}
+
+    <div class="formset-header">
+      <div style="flex:3;">Description</div>
+      <div>Qty</div>
+      <div>Unit Price (₦)</div>
+      <div>Remove</div>
+    </div>
+
+    <div id="formset-container">
+      {% for ff in formset %}
+      <div class="formset-row" style="grid-template-columns:3fr 80px 160px auto;">
+        {{ ff.id }}
+        <div>{{ ff.description }}</div>
+        <div>{{ ff.quantity }}</div>
+        <div>{{ ff.unit_price }}</div>
+        <div class="delete-check">
+          {{ ff.DELETE }} Del
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div style="display:flex; gap:12px; margin-top:24px;">
+      <button type="submit" class="btn btn-primary">Save Invoice</button>
+      <a href="{% url 'invoice_list' %}" class="btn btn-light">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

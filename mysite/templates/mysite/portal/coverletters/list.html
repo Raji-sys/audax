@@ -1,0 +1,29 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Cover Letters{% endblock %}
+{% block page_title %}Cover Letters{% endblock %}
+{% block breadcrumb %}Documents / Cover Letters{% endblock %}
+{% block topbar_actions %}<a href="{% url 'coverletter_create' %}" class="btn btn-primary">+ New Cover Letter</a>{% endblock %}
+{% block content %}
+<div class="section-card">
+  <table class="portal-table">
+    <thead><tr><th>Reference</th><th>Client</th><th>Subject</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for l in letters %}
+      <tr>
+        <td><a href="{% url 'coverletter_detail' l.pk %}">{{ l.letter_ref }}</a></td>
+        <td>{{ l.client.name }}</td>
+        <td>{{ l.subject|truncatechars:60 }}</td>
+        <td>{{ l.issue_date|date:"d M Y" }}</td>
+        <td>
+          <a href="{% url 'coverletter_detail' l.pk %}" style="margin-right:8px;">View</a>
+          <a href="{% url 'coverletter_edit' l.pk %}" style="margin-right:8px; color:#5dade2;">Edit</a>
+          <a href="{% url 'coverletter_delete' l.pk %}" style="color:#e07070;">Del</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align:center; padding:28px; color:#4a7090;">No cover letters yet. <a href="{% url 'coverletter_create' %}">Create one</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

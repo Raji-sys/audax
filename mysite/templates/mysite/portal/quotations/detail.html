@@ -1,0 +1,98 @@
+{% extends 'mysite/documents/letterhead_base.html' %}
+{% load static %}
+
+{% block doc_title %}{{ quotation.quotation_number }} — Quotation{% endblock %}
+{% block doc_ref %}{{ quotation.quotation_number }}{% endblock %}
+
+{% block toolbar_buttons %}
+  <a href="{% url 'quotation_edit' quotation.pk %}" class="btn-edit">✏ Edit</a>
+{% endblock %}
+
+{% block doc_body %}
+
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+    <div>
+      <h2 style="font-size:22px; color:#1a4a6b; letter-spacing:1px; margin-bottom:6px;">QUOTATION</h2>
+      <span class="status-badge status-{{ quotation.status }}">{{ quotation.get_status_display }}</span>
+    </div>
+    <div class="doc-dates">
+      <div><strong>Date:</strong> {{ quotation.issue_date|date:"d M Y" }}</div>
+      {% if quotation.valid_until %}
+      <div><strong>Valid Until:</strong> {{ quotation.valid_until|date:"d M Y" }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="client-block">
+    <div class="to-block">
+      <strong>Quoted To</strong>
+      {{ quotation.client.name }}<br>
+      {% if quotation.client.company %}{{ quotation.client.company }}<br>{% endif %}
+      {% if quotation.client.address %}{{ quotation.client.address }}<br>{% endif %}
+      {% if quotation.client.email %}{{ quotation.client.email }}<br>{% endif %}
+      {% if quotation.client.phone %}{{ quotation.client.phone }}{% endif %}
+    </div>
+    <div></div>
+  </div>
+
+  <div class="doc-section">
+    <h3>Items / Services</h3>
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Unit Price (₦)</th>
+          <th>Total (₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in quotation.items.all %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.unit_price|floatformat:2 }}</td>
+          <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align:center; color:#999; padding:20px;">No items added.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="totals-block">
+    <table class="totals-table">
+      <tr><td>Subtotal</td><td>₦{{ quotation.subtotal|floatformat:2 }}</td></tr>
+      {% if quotation.discount_percent > 0 %}
+      <tr><td>Discount ({{ quotation.discount_percent }}%)</td><td>- ₦{{ quotation.discount_amount|floatformat:2 }}</td></tr>
+      {% endif %}
+      {% if quotation.tax_percent > 0 %}
+      <tr><td>VAT ({{ quotation.tax_percent }}%)</td><td>₦{{ quotation.tax_amount|floatformat:2 }}</td></tr>
+      {% endif %}
+      <tr class="grand-total"><td>Total</td><td>₦{{ quotation.total|floatformat:2 }}</td></tr>
+    </table>
+  </div>
+
+  {% if quotation.notes %}
+  <div class="doc-section">
+    <h3>Notes</h3>
+    <p>{{ quotation.notes }}</p>
+  </div>
+  {% endif %}
+
+  {% if quotation.terms %}
+  <div class="doc-section">
+    <h3>Terms &amp; Conditions</h3>
+    <p>{{ quotation.terms }}</p>
+  </div>
+  {% endif %}
+
+  <div style="margin-top:50px; display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+    <div><div style="border-top:1px solid #333; padding-top:8px; font-size:12px; color:#555;">Authorised Signature</div></div>
+    <div><div style="border-top:1px solid #333; padding-top:8px; font-size:12px; color:#555;">Client Signature &amp; Date</div></div>
+  </div>
+
+{% endblock %}

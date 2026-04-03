@@ -1,0 +1,30 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Proposals{% endblock %}
+{% block page_title %}Proposals{% endblock %}
+{% block breadcrumb %}Documents / Proposals{% endblock %}
+{% block topbar_actions %}<a href="{% url 'proposal_create' %}" class="btn btn-primary">+ New Proposal</a>{% endblock %}
+{% block content %}
+<div class="section-card">
+  <table class="portal-table">
+    <thead><tr><th>Reference</th><th>Client</th><th>Subject</th><th>Service</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for p in proposals %}
+      <tr>
+        <td><a href="{% url 'proposal_detail' p.pk %}">{{ p.proposal_number }}</a></td>
+        <td>{{ p.client.name }}</td>
+        <td>{{ p.subject|truncatechars:50 }}</td>
+        <td>{{ p.get_service_type_display }}</td>
+        <td><span class="badge badge-{{ p.status }}">{{ p.get_status_display }}</span></td>
+        <td>
+          <a href="{% url 'proposal_detail' p.pk %}" style="margin-right:8px;">View</a>
+          <a href="{% url 'proposal_edit' p.pk %}" style="margin-right:8px; color:#5dade2;">Edit</a>
+          <a href="{% url 'proposal_delete' p.pk %}" style="color:#e07070;">Del</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" style="text-align:center; padding:28px; color:#4a7090;">No proposals yet. <a href="{% url 'proposal_create' %}">Create one</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

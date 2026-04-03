@@ -5,6 +5,7 @@ django-browser-reload==1.21.0
 django-fastdev==1.13.0
 gunicorn==25.3.0
 packaging==26.0
+pillow==12.2.0
 psycopg==3.3.3
 psycopg-binary==3.3.3
 psycopg-pool==3.3.0

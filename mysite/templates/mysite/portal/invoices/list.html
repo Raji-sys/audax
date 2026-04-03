@@ -1,0 +1,45 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Invoices{% endblock %}
+{% block page_title %}Invoices{% endblock %}
+{% block breadcrumb %}Documents / Invoices{% endblock %}
+
+{% block topbar_actions %}
+  <a href="{% url 'invoice_create' %}" class="btn btn-primary">+ New Invoice</a>
+{% endblock %}
+
+{% block content %}
+<div class="section-card">
+  <table class="portal-table">
+    <thead>
+      <tr>
+        <th>Reference</th>
+        <th>Client</th>
+        <th>Issue Date</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for inv in invoices %}
+      <tr>
+        <td><a href="{% url 'invoice_detail' inv.pk %}">{{ inv.invoice_number }}</a></td>
+        <td>{{ inv.client.name }}{% if inv.client.company %}<br><small style="color:#4a7090;">{{ inv.client.company }}</small>{% endif %}</td>
+        <td>{{ inv.issue_date|date:"d M Y" }}</td>
+        <td>{% if inv.due_date %}{{ inv.due_date|date:"d M Y" }}{% else %}—{% endif %}</td>
+        <td><span class="badge badge-{{ inv.status }}">{{ inv.get_status_display }}</span></td>
+        <td>₦{{ inv.total|floatformat:2 }}</td>
+        <td>
+          <a href="{% url 'invoice_detail' inv.pk %}" style="margin-right:8px;">View</a>
+          <a href="{% url 'invoice_edit' inv.pk %}" style="margin-right:8px; color:#5dade2;">Edit</a>
+          <a href="{% url 'invoice_delete' inv.pk %}" style="color:#e07070;">Del</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" style="text-align:center; padding:28px; color:#4a7090;">No invoices yet. <a href="{% url 'invoice_create' %}">Create one</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

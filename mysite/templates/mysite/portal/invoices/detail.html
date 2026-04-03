@@ -1,0 +1,124 @@
+{% extends 'mysite/documents/letterhead_base.html' %}
+{% load static %}
+
+{% block doc_title %}{{ invoice.invoice_number }} — Invoice{% endblock %}
+{% block doc_ref %}{{ invoice.invoice_number }}{% endblock %}
+
+{% block toolbar_buttons %}
+  <a href="{% url 'invoice_edit' invoice.pk %}" class="btn-edit">✏ Edit</a>
+  <a href="{% url 'receipt_create' invoice.pk %}" class="btn-print" style="background:#8e44ad">💳 Record Payment</a>
+{% endblock %}
+
+{% block doc_body %}
+
+  <!-- Title row -->
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+    <div>
+      <h2 style="font-size:22px; color:#1a4a6b; letter-spacing:1px; margin-bottom:6px;">INVOICE</h2>
+      <span class="status-badge status-{{ invoice.status }}">{{ invoice.get_status_display }}</span>
+    </div>
+    <div class="doc-dates">
+      <div><strong>Issue Date:</strong> {{ invoice.issue_date|date:"d M Y" }}</div>
+      {% if invoice.due_date %}
+      <div><strong>Due Date:</strong> {{ invoice.due_date|date:"d M Y" }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Client & dates -->
+  <div class="client-block">
+    <div class="to-block">
+      <strong>Bill To</strong>
+      {{ invoice.client.name }}<br>
+      {% if invoice.client.company %}{{ invoice.client.company }}<br>{% endif %}
+      {% if invoice.client.address %}{{ invoice.client.address }}<br>{% endif %}
+      {% if invoice.client.email %}{{ invoice.client.email }}<br>{% endif %}
+      {% if invoice.client.phone %}{{ invoice.client.phone }}{% endif %}
+    </div>
+    <div></div>
+  </div>
+
+  <!-- Line items -->
+  <div class="doc-section">
+    <h3>Services / Items</h3>
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Unit Price (₦)</th>
+          <th>Total (₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in invoice.items.all %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.unit_price|floatformat:2 }}</td>
+          <td>{{ item.total|floatformat:2 }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align:center; color:#999; padding:20px;">No items added.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Totals -->
+  <div class="totals-block">
+    <table class="totals-table">
+      <tr>
+        <td>Subtotal</td>
+        <td>₦{{ invoice.subtotal|floatformat:2 }}</td>
+      </tr>
+      {% if invoice.discount_percent > 0 %}
+      <tr>
+        <td>Discount ({{ invoice.discount_percent }}%)</td>
+        <td>- ₦{{ invoice.discount_amount|floatformat:2 }}</td>
+      </tr>
+      {% endif %}
+      {% if invoice.tax_percent > 0 %}
+      <tr>
+        <td>VAT ({{ invoice.tax_percent }}%)</td>
+        <td>₦{{ invoice.tax_amount|floatformat:2 }}</td>
+      </tr>
+      {% endif %}
+      <tr class="grand-total">
+        <td>Total Due</td>
+        <td>₦{{ invoice.total|floatformat:2 }}</td>
+      </tr>
+    </table>
+  </div>
+
+  {% if invoice.notes %}
+  <div class="doc-section">
+    <h3>Notes</h3>
+    <p>{{ invoice.notes }}</p>
+  </div>
+  {% endif %}
+
+  {% if invoice.terms %}
+  <div class="doc-section">
+    <h3>Payment Terms</h3>
+    <p>{{ invoice.terms }}</p>
+  </div>
+  {% endif %}
+
+  <!-- Signature -->
+  <div style="margin-top:50px; display:grid; grid-template-columns:1fr 1fr; gap:40px;">
+    <div>
+      <div style="border-top:1px solid #333; padding-top:8px; font-size:12px; color:#555;">
+        Authorised Signature
+      </div>
+    </div>
+    <div>
+      <div style="border-top:1px solid #333; padding-top:8px; font-size:12px; color:#555;">
+        Client Acknowledgement &amp; Date
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

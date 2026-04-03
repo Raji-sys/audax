@@ -1,0 +1,27 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Blog Posts{% endblock %}
+{% block page_title %}Blog Posts{% endblock %}
+{% block topbar_actions %}<a href="{% url 'blog_create' %}" class="btn btn-primary">+ New Post</a>{% endblock %}
+{% block content %}
+<div class="section-card">
+  <table class="portal-table">
+    <thead><tr><th>Title</th><th>Category</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for p in posts %}
+      <tr>
+        <td>{{ p.title|truncatechars:60 }}</td>
+        <td>{{ p.category|default:"—" }}</td>
+        <td>{% if p.published %}<span class="badge badge-accepted">Live</span>{% else %}<span class="badge badge-draft">Draft</span>{% endif %}</td>
+        <td>{{ p.created_at|date:"d M Y" }}</td>
+        <td>
+          <a href="{% url 'blog_edit' p.pk %}" style="color:#5dade2; margin-right:8px;">Edit</a>
+          <a href="{% url 'blog_delete' p.pk %}" style="color:#e07070;">Del</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" style="text-align:center; padding:28px; color:#4a7090;">No posts yet. <a href="{% url 'blog_create' %}">Write one</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'mysite/portal/base.html' %}
+{% block title %}Quotations{% endblock %}
+{% block page_title %}Quotations{% endblock %}
+{% block breadcrumb %}Documents / Quotations{% endblock %}
+{% block topbar_actions %}<a href="{% url 'quotation_create' %}" class="btn btn-primary">+ New Quotation</a>{% endblock %}
+{% block content %}
+<div class="section-card">
+  <table class="portal-table">
+    <thead><tr><th>Reference</th><th>Client</th><th>Date</th><th>Valid Until</th><th>Status</th><th>Total</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for q in quotations %}
+      <tr>
+        <td><a href="{% url 'quotation_detail' q.pk %}">{{ q.quotation_number }}</a></td>
+        <td>{{ q.client.name }}</td>
+        <td>{{ q.issue_date|date:"d M Y" }}</td>
+        <td>{% if q.valid_until %}{{ q.valid_until|date:"d M Y" }}{% else %}—{% endif %}</td>
+        <td><span class="badge badge-{{ q.status }}">{{ q.get_status_display }}</span></td>
+        <td>₦{{ q.total|floatformat:2 }}</td>
+        <td>
+          <a href="{% url 'quotation_detail' q.pk %}" style="margin-right:8px;">View</a>
+          <a href="{% url 'quotation_edit' q.pk %}" style="margin-right:8px; color:#5dade2;">Edit</a>
+          <a href="{% url 'quotation_delete' q.pk %}" style="color:#e07070;">Del</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" style="text-align:center; padding:28px; color:#4a7090;">No quotations yet. <a href="{% url 'quotation_create' %}">Create one</a></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
