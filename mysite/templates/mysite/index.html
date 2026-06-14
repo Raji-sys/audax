@@ -5,762 +5,1571 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AudaxDynamics Enterprises - Enterprise Digital Solutions</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <title>AudaxDynamics — Enterprise Digital Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+/* ── TOKENS ─────────────────────────────────────── */
+:root {
+    --void:      #050F1A;
+    --surface:   #0A2540;
+    --surface2:  #0D2E4A;
+    --blue:      #0E6BA8;
+    --teal:      #00C4B4;
+    --gold:      #C8A96E;
+    --gold-dim:  rgba(200,169,110,0.15);
+    --text:      #F5F0E8;
+    --muted:     rgba(245,240,232,0.55);
+    --border:    rgba(245,240,232,0.08);
+    --teal-dim:  rgba(0,196,180,0.12);
+    --blue-dim:  rgba(14,107,168,0.2);
+}
 
-    body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        line-height: 1.6;
-        overflow-x: hidden;
-        background-color: #064a65; /* Deep teal-blue */
-        color: #e2f1f8; /* Soft white text */
-    }
+/* ── RESET ───────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
 
-    .gradient-bg {
-        background: linear-gradient(135deg, #0678a5 0%, #183c52 50%, #2d4a5d 100%);
-    }
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--void);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
 
-    .tech-pattern {
-        background-image: 
-            radial-gradient(circle at 25% 25%, rgba(59, 200, 246, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(51, 255, 234, 0.07) 0%, transparent 50%);
-    }
+a { color: var(--teal); text-decoration: none; }
+a:hover { color: var(--text); }
 
-    .card-hover {
-        transition: all 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(12px);
-        background: rgba(12, 34, 48, 0.4);
-    }
+/* ── SCROLLBAR ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
 
-    .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        border-color: rgba(0, 255, 255, 0.2);
-    }
+/* ── TYPOGRAPHY ──────────────────────────────────── */
+.display {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
 
-    .pulse-glow {
-        animation: pulse-glow 2s infinite;
-    }
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
 
-    @keyframes pulse-glow {
-        0%, 100% { box-shadow: 0 0 20px rgba(51, 255, 234, 0.2); }
-        50% { box-shadow: 0 0 30px rgba(51, 255, 234, 0.5); }
-    }
+.eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+}
 
-    .typing-effect {
-        border-right: 2px solid #66d9ef;
-        animation: typing 3s steps(30), blink 0.8s infinite;
-        white-space: nowrap;
-        overflow: hidden;
-    }
+/* ── NAV ─────────────────────────────────────────── */
+nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 64px;
+    background: rgba(5,15,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+}
 
-    @keyframes typing {
-        from { width: 0; }
-        to { width: 100%; }
-    }
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
 
-    @keyframes blink {
-        50% { border-color: transparent; }
-    }
+.nav-logo img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 6px;
+}
 
-    .floating {
-        animation: floating 3s ease-in-out infinite;
-    }
+.nav-wordmark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--teal), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-    @keyframes floating {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+}
 
-    .tech-grid {
-        background-image: 
-            linear-gradient(rgba(51, 255, 234, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(51, 255, 234, 0.05) 1px, transparent 1px);
-        background-size: 50px 50px;
-    }
+.nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 0.2s;
+    position: relative;
+}
 
-    .navbar-blur {
-        backdrop-filter: blur(20px);
-        background: rgba(15, 46, 58, 0.85);
-    }
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--teal);
+    transition: width 0.2s;
+}
 
-    a {
-        color: #66d9ef;
-    }
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
 
-    a:hover {
-        color: #a0f0f5;
-    }
+.nav-cta {
+    padding: 0.5rem 1.25rem;
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold) !important;
+    transition: all 0.2s !important;
+}
 
-    button {
-        background-color: #1e3a4c;
-        color: #e2f1f8;
-        border: 1px solid #66d9ef;
-    }
+.nav-cta::after { display: none !important; }
+.nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--void) !important;
+}
 
-    button:hover {
-        background-color: #66d9ef;
-        color: #0f2e3a;
-    }
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--text);
+    transition: all 0.3s;
+}
+
+/* ── HERO ────────────────────────────────────────── */
+#home {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem clamp(1.5rem, 5vw, 4rem) 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,196,180,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(14,107,168,0.08) 0%, transparent 50%);
+}
+
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+}
+
+.hero-left {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-right: 4rem;
+}
+
+/* Signature element: vertical teal rule */
+.hero-rule {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.teal-rule {
+    width: 3px;
+    min-height: 180px;
+    background: linear-gradient(to bottom, var(--teal), transparent);
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+}
+
+.hero-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+}
+
+.hero-headline .line-accent {
+    color: var(--teal);
+}
+
+.hero-headline .line-dim {
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 0.7em;
+    letter-spacing: -0.01em;
+    display: block;
+    margin-top: 0.3rem;
+}
+
+.hero-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 38ch;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    background: var(--gold);
+    color: var(--void);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: #d9bc82;
+    color: var(--void);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200,169,110,0.3);
+}
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-ghost:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+}
+
+.hero-badges {
+    display: flex;
+    gap: 2rem;
+    padding-top: 0.5rem;
+}
+
+.hero-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.hero-badge i { color: var(--teal); font-size: 0.85rem; }
+
+/* Hero right: terminal card */
+.hero-right {
+    position: relative;
+    z-index: 2;
+}
+
+.terminal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 32px 64px rgba(0,0,0,0.4);
+}
+
+.terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid var(--border);
+}
+
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.t-red   { background: #FF5F56; }
+.t-amber { background: #FFBD2E; }
+.t-green { background: #27C93F; }
+
+.terminal-title {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+}
+
+.terminal-body {
+    padding: 1.5rem;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.t-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    opacity: 0;
+    animation: t-appear 0.3s forwards;
+}
+
+.t-prompt { color: var(--teal); }
+.t-cmd    { color: var(--text); }
+.t-out    { color: var(--muted); padding-left: 1rem; }
+.t-ok     { color: #27C93F; }
+.t-gold   { color: var(--gold); padding-left: 1rem; }
+.t-cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--teal);
+    vertical-align: middle;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes t-appear { to { opacity: 1; } }
+
+.terminal-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+}
+
+.t-stat {
+    background: var(--surface);
+    padding: 1rem;
+    text-align: center;
+}
+
+.t-stat-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--gold);
+    line-height: 1;
+}
+
+.t-stat-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* ── SECTION BASE ────────────────────────────────── */
+section { padding: 6rem clamp(1.5rem, 5vw, 4rem); }
+
+.section-header {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    letter-spacing: -0.03em;
+    margin-top: 0.75rem;
+}
+
+/* ── SOLUTIONS ───────────────────────────────────── */
+#solutions {
+    background: var(--surface);
+    position: relative;
+}
+
+#solutions::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+}
+
+.solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.sol-card {
+    background: var(--void);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.sol-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--teal), var(--blue));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+}
+
+.sol-card:hover {
+    border-color: rgba(0,196,180,0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+}
+
+.sol-card:hover::before { transform: scaleX(1); }
+
+.sol-icon {
+    width: 48px; height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    font-size: 1.2rem;
+}
+
+.sol-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+}
+
+.sol-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+}
+
+.sol-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.sol-features li {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sol-features li::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--teal);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.sol-custom {
+    grid-column: 1 / -1;
+    background: var(--teal-dim);
+    border-color: rgba(0,196,180,0.2);
+    padding: 2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 10px;
+}
+
+.sol-custom i { font-size: 2rem; color: var(--teal); flex-shrink: 0; }
+
+.sol-custom h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.sol-custom p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+
+/* ── TECH ────────────────────────────────────────── */
+#technology { background: var(--void); }
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.tech-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    transition: border-color 0.3s;
+}
+
+.tech-card:hover { border-color: rgba(0,196,180,0.25); }
+
+.tech-icon {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.tech-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.25rem;
+}
+
+.tech-card .tech-sub {
+    font-size: 0.72rem;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+}
+
+.tech-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+/* ── ABOUT ───────────────────────────────────────── */
+#about {
+    background: var(--surface);
+    position: relative;
+}
+
+#about::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+}
+
+.about-text h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+}
+
+.about-text h2 span { color: var(--teal); }
+
+.about-text p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.25rem;
+}
+
+.about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.about-stat {
+    border-left: 2px solid var(--gold);
+    padding-left: 1rem;
+}
+
+.about-stat-val {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--gold);
+    line-height: 1;
+}
+
+.about-stat-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+}
+
+.about-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.about-feat {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    padding: 1.25rem;
+    background: var(--void);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.about-feat:hover { border-color: rgba(0,196,180,0.2); }
+
+.about-feat-icon {
+    width: 40px; height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.about-feat h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}
+
+.about-feat p { font-size: 0.78rem; color: var(--muted); }
+
+/* ── CONTACT ─────────────────────────────────────── */
+#contact { background: var(--void); }
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+}
+
+.contact-info h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+}
+
+.contact-info > p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+}
+
+.contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.contact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.contact-item-icon {
+    width: 42px; height: 42px;
+    background: var(--teal-dim);
+    border: 1px solid rgba(0,196,180,0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.contact-item h4 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.2rem;
+}
+
+.contact-item p { font-size: 0.9rem; font-weight: 500; }
+
+.why-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.why-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+}
+
+.why-list li i { color: var(--teal); font-size: 0.75rem; }
+
+/* Contact form */
+.contact-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2.5rem;
+}
+
+.contact-form h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: var(--void);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+}
+
+.form-group select option { background: var(--void); }
+.form-group textarea { resize: vertical; min-height: 110px; }
+
+.btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gold);
+    color: var(--void);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-submit:hover {
+    background: #d9bc82;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200,169,110,0.3);
+}
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer {
+    background: var(--void);
+    border-top: 1px solid var(--border);
+    padding: 4rem clamp(1.5rem, 5vw, 4rem) 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+}
+
+.footer-brand p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 1rem 0 1.5rem;
+    max-width: 36ch;
+}
+
+.social-links {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.social-link {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.social-link:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+}
+
+.footer-col h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+}
+
+.footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.footer-col ul a {
+    font-size: 0.82rem;
+    color: var(--muted);
+    transition: color 0.2s;
+}
+
+.footer-col ul a:hover { color: var(--text); }
+
+.footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footer-bottom p { font-size: 0.75rem; color: var(--muted); }
+
+.footer-legal {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-legal a { font-size: 0.75rem; color: var(--muted); }
+.footer-legal a:hover { color: var(--text); }
+
+/* ── MOBILE NAV ──────────────────────────────────── */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(5,15,26,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+    z-index: 99;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.mobile-nav a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+}
+
+.mobile-nav a:hover { color: var(--text); }
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 1024px) {
+    #home { grid-template-columns: 1fr; gap: 3rem; }
+    .hero-left { padding-right: 0; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .footer-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 768px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .mobile-nav.open { display: flex; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .terminal-stats { grid-template-columns: repeat(3, 1fr); }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .hero-right { display: none; }
+}
+
+/* ── UTILS ───────────────────────────────────────── */
+.text-teal  { color: var(--teal); }
+.text-gold  { color: var(--gold); }
+.text-muted { color: var(--muted); }
+.mb-1 { margin-bottom: 0.5rem; }
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: none;
+}
 </style>
-
 </head>
-<body class="bg-slate-900 text-white">
-<!-- Navigation -->
-<nav class="fixed w-full z-50 navbar-blur border-b border-slate-700/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-br from-blue-500 to-teal-600 rounded-lg flex items-center justify-center p-1">
-                    <img src="{% static 'images/logo.png' %}" alt="AudaxDynamics Logo" class="w-12 h-auto object-contain" />
-                </div>
-                <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                    AudaxDynamics
-                </span>
-            </div>
-            
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex space-x-8">
-                <a href="#home" class="nav-link hover:text-blue-400 transition-colors">Home</a>
-                <a href="#solutions" class="nav-link hover:text-blue-400 transition-colors">Solutions</a>
-                <a href="#technology" class="nav-link hover:text-blue-400 transition-colors">Technology</a>
-                <a href="#about" class="nav-link hover:text-blue-400 transition-colors">About</a>
-                <a href="#contact" class="nav-link hover:text-blue-400 transition-colors">Contact</a>
-            </div>
-            
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
-                <i class="fas fa-bars text-xl"></i>
-            </button>
-        </div>
-        
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="md:hidden hidden bg-slate-900/95 backdrop-blur-lg rounded-lg mt-2 py-2">
-            <div class="flex flex-col space-y-3 px-4">
-                <a href="#home" class="nav-link hover:text-blue-400 transition-colors py-2">Home</a>
-                <a href="#solutions" class="nav-link hover:text-blue-400 transition-colors py-2">Solutions</a>
-                <a href="#technology" class="nav-link hover:text-blue-400 transition-colors py-2">Technology</a>
-                <a href="#about" class="nav-link hover:text-blue-400 transition-colors py-2">About</a>
-                <a href="#contact" class="nav-link hover:text-blue-400 transition-colors py-2">Contact</a>
-            </div>
-        </div>
+
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <div class="nav-logo">
+        <img src="{% static 'images/logo.png' %}" alt="AudaxDynamics">
+        <span class="nav-wordmark">AudaxDynamics</span>
     </div>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
 </nav>
 
-    <!-- Hero Section -->
-<section id="home" class="min-h-screen gradient-bg tech-pattern flex items-center">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-8">
-                <div class="space-y-4">
-                    <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
-                        <span class="block bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                            Enterprise
-                        </span>
-                        <span class="block typing-effect">Digital Solutions</span>
-                    </h1>
-                    <p class="text-xl text-slate-300 max-w-2xl">
-                        Transforming paper-based systems into powerful digital solutions for enterprises and government institutions worldwide.
-                    </p>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <button class="px-8 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg font-semibold pulse-glow hover:from-blue-700 hover:to-teal-700 transition-all">
-                        <i class="fas fa-rocket mr-2"></i>
-                        Start Your Digital Transformation
-                    </button>
-                    <button class="px-8 py-4 border border-slate-600 rounded-lg font-semibold hover:border-blue-500 hover:bg-slate-800 transition-all">
-                        <i class="fas fa-play mr-2"></i>
-                        View Our Solutions
-                    </button>
-                </div>
-                <div class="flex items-center space-x-8 text-sm text-slate-400">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-shield-alt text-green-400"></i>
-                        <span>Enterprise Security</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-cloud text-blue-400"></i>
-                        <span>Scalable Architecture</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-cogs text-teal-400"></i>
-                        <span>Custom Solutions</span>
-                    </div>
-                </div>
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+    <a href="#home">Home</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#technology">Technology</a>
+    <a href="#about">About</a>
+    <a href="#contact">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-left">
+        <span class="eyebrow">Enterprise Software · Nigeria</span>
+        <div class="hero-rule">
+            <div class="teal-rule"></div>
+            <h1 class="hero-headline">
+                Digitalize<br>
+                <span class="line-accent">Your Enterprise.</span>
+                <span class="line-dim">Paper ends here.</span>
+            </h1>
+        </div>
+        <p class="hero-sub">
+            We build secure, scalable digital systems for healthcare institutions and government agencies — replacing inefficient paper workflows with powerful software.
+        </p>
+        <div class="hero-actions">
+            <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                <i class="fas fa-rocket"></i> Start Your Project
+            </button>
+            <button class="btn-ghost" onclick="document.getElementById('solutions').scrollIntoView({behavior:'smooth'})">
+                <i class="fas fa-th-large"></i> Our Solutions
+            </button>
+        </div>
+        <div class="hero-badges">
+            <span class="hero-badge"><i class="fas fa-shield-alt"></i> Enterprise Security</span>
+            <span class="hero-badge"><i class="fas fa-server"></i> On-Premise Ready</span>
+            <span class="hero-badge"><i class="fas fa-university"></i> Gov-Grade</span>
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <div class="terminal-card">
+            <div class="terminal-bar">
+                <div class="terminal-dot t-red"></div>
+                <div class="terminal-dot t-amber"></div>
+                <div class="terminal-dot t-green"></div>
+                <span class="terminal-title">audaxdynamics — system status</span>
             </div>
-            <div class="relative">
-                <div class="tech-grid absolute inset-0 opacity-30"></div>
-                <div class="relative floating">
-                    <div class="w-full h-auto bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 border border-slate-700 shadow-2xl">
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <div class="flex space-x-2">
-                                    <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                    <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                                </div>
-                                <span class="text-xs text-slate-500">audaxdynamics.com</span>
-                            </div>
-                            <div class="space-y-3 h-full flex items-center justify-center">
-                                <img src="{% static 'images/logo.png' %}" alt="AudaxDynamics Logo" class="w-full h-auto object-contain" />
-                            </div>
-                        </div>
-                    </div>
+            <div class="terminal-body" id="terminal">
+                <!-- lines injected by JS -->
+            </div>
+            <div class="terminal-stats">
+                <div class="t-stat">
+                    <div class="t-stat-val">50+</div>
+                    <div class="t-stat-label">Clients</div>
+                </div>
+                <div class="t-stat">
+                    <div class="t-stat-val">99.9%</div>
+                    <div class="t-stat-label">Uptime</div>
+                </div>
+                <div class="t-stat">
+                    <div class="t-stat-val">24/7</div>
+                    <div class="t-stat-label">Support</div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-    <!-- Solutions Section -->
-    <section id="solutions" class="py-20 bg-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
-                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                        Complete Digital Ecosystem
-                    </span>
-                </h2>
-                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
-                    From healthcare to enterprise resource planning, we deliver comprehensive solutions that digitalize your entire operation.
-                </p>
+<!-- SOLUTIONS -->
+<section id="solutions">
+    <div class="section-header reveal">
+        <span class="eyebrow">What We Build</span>
+        <h2 class="section-title">A Complete Digital Ecosystem</h2>
+    </div>
+    <div class="solutions-grid">
+        <div class="sol-card reveal">
+            <div class="sol-icon" style="background:rgba(14,107,168,0.15); color:#4da6db;">
+                <i class="fas fa-hospital"></i>
             </div>
+            <h3>Electronic Medical Records</h3>
+            <p>Full-featured EMR system with patient management, visit tracking, prescription management, and billing for healthcare institutions.</p>
+            <ul class="sol-features">
+                <li>Patient Portal Integration</li>
+                <li>Medical History & Visit Tracking</li>
+                <li>Prescription Management</li>
+                <li>Admission & Billing Automation</li>
+            </ul>
+        </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- EMR -->
-                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-hospital text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Electronic Medical Records</h3>
-                    <p class="text-slate-300 mb-6">Comprehensive EMR system with patient management, medical history tracking, and HIPAA compliance for healthcare institutions.</p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Patient Portal Integration</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Medical History Tracking</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Prescription Management</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Compliance Ready</li>
-                    </ul>
-                </div>
-
-                <!-- EDMS -->
-                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-file-alt text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Document Management</h3>
-                    <p class="text-slate-300 mb-6">Transform paper-based workflows into efficient digital document management systems with advanced search and security.</p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Digital Archiving</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Workflow Automation</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Version Control</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Access Management</li>
-                    </ul>
-                </div>
-
-                <!-- HRMS -->
-                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-users text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Human Resources</h3>
-                    <p class="text-slate-300 mb-6">Complete HRMS solution covering recruitment, payroll, performance management, and employee self-service portals.</p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Employee Management</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Payroll Processing</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Performance Tracking</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Self-Service Portal</li>
-                    </ul>
-                </div>
-
-                <!-- Inventory -->
-                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-boxes text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Inventory Management</h3>
-                    <p class="text-slate-300 mb-6">Real-time inventory tracking with automated reordering, supplier management, and comprehensive reporting.</p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Real-Time Tracking</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Automated Reordering</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Supplier Integration</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Analytics Dashboard</li>
-                    </ul>
-                </div>
-
-                <!-- Pharmacy -->
-                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-pills text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Pharmacy Management</h3>
-                    <p class="text-slate-300 mb-6">Complete pharmacy solution with prescription processing, inventory control, and regulatory compliance features.</p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Prescription Processing</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Drug Interaction Checks</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Insurance Integration</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Regulatory Compliance</li>
-                    </ul>
-                </div>
-
-                <!-- ERP -->
-                <div class="card-hover bg-slate-900/50 rounded-2xl p-8">
-                    <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-line text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Enterprise Resource Planning</h3>
-                    <p class="text-slate-300 mb-6">Integrated ERP solution connecting all business processes from finance to operations in one unified platform.</p>
-                    <ul class="space-y-2 text-sm text-slate-400">
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Financial Management</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Supply Chain Integration</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Business Intelligence</li>
-                        <li><i class="fas fa-check text-green-400 mr-2"></i>Multi-Department Sync</li>
-                    </ul>
-                </div>
+        <div class="sol-card reveal">
+            <div class="sol-icon" style="background:rgba(0,196,180,0.12); color:var(--teal);">
+                <i class="fas fa-file-alt"></i>
             </div>
+            <h3>Document Management</h3>
+            <p>Transform paper-based workflows into secure digital document management systems with advanced search and access control.</p>
+            <ul class="sol-features">
+                <li>Digital Archiving & Indexing</li>
+                <li>Workflow Automation</li>
+                <li>Version Control</li>
+                <li>Role-Based Access</li>
+            </ul>
+        </div>
 
-            <div class="text-center mt-16">
-                <div class="inline-flex items-center space-x-4 bg-gradient-to-r from-blue-900/50 to-teal-900/50 rounded-2xl p-8 border border-blue-500/20">
-                    <i class="fas fa-magic text-3xl text-blue-400"></i>
-                    <div class="text-left">
-                        <h3 class="text-xl font-bold">Custom Digitalization</h3>
-                        <p class="text-slate-300">Any paper-based system can be transformed into a powerful digital solution</p>
-                    </div>
+        <div class="sol-card reveal">
+            <div class="sol-icon" style="background:rgba(39,201,63,0.12); color:#4cd96a;">
+                <i class="fas fa-users"></i>
+            </div>
+            <h3>Human Resources</h3>
+            <p>Complete HRMS covering recruitment, payroll, performance management, and employee self-service for any organisation size.</p>
+            <ul class="sol-features">
+                <li>Employee Lifecycle Management</li>
+                <li>Payroll Processing</li>
+                <li>Performance Tracking</li>
+                <li>Self-Service Portal</li>
+            </ul>
+        </div>
+
+        <div class="sol-card reveal">
+            <div class="sol-icon" style="background:rgba(200,169,110,0.12); color:var(--gold);">
+                <i class="fas fa-boxes"></i>
+            </div>
+            <h3>Drugs & Consumables</h3>
+            <p>Multi-tenant pharmaceutical inventory for state agencies — real-time stock tracking, procurement, and distribution across facilities.</p>
+            <ul class="sol-features">
+                <li>Multi-Facility Stock Control</li>
+                <li>Procurement Management</li>
+                <li>Supplier Integration</li>
+                <li>Analytics & Reporting</li>
+            </ul>
+        </div>
+
+        <div class="sol-card reveal">
+            <div class="sol-icon" style="background:rgba(255,95,86,0.12); color:#ff7e76;">
+                <i class="fas fa-pills"></i>
+            </div>
+            <h3>Pharmacy Management</h3>
+            <p>End-to-end pharmacy solution with prescription processing, drug inventory control, and regulatory compliance features.</p>
+            <ul class="sol-features">
+                <li>Prescription Processing</li>
+                <li>Drug Interaction Checks</li>
+                <li>Insurance Integration</li>
+                <li>Regulatory Compliance</li>
+            </ul>
+        </div>
+
+        <div class="sol-card reveal">
+            <div class="sol-icon" style="background:rgba(138,99,210,0.12); color:#b08ae8;">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Enterprise Resource Planning</h3>
+            <p>Integrated ERP connecting all business processes — finance, operations, supply chain — into one unified platform.</p>
+            <ul class="sol-features">
+                <li>Financial Management</li>
+                <li>Supply Chain Integration</li>
+                <li>Business Intelligence</li>
+                <li>Multi-Department Sync</li>
+            </ul>
+        </div>
+
+        <div class="sol-custom reveal">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <div>
+                <h3>Custom Digitalization</h3>
+                <p>Any paper-based system in your organisation can be transformed into a powerful, secure digital solution. We scope, design, and deliver.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section id="technology">
+    <div class="section-header reveal">
+        <span class="eyebrow">How We Build It</span>
+        <h2 class="section-title">Enterprise-Grade Technology</h2>
+    </div>
+    <div class="tech-grid">
+        <div class="tech-card reveal">
+            <div class="tech-icon" style="background:rgba(39,201,63,0.12); color:#4cd96a;">
+                <i class="fab fa-python"></i>
+            </div>
+            <div>
+                <div class="tech-sub">Backend</div>
+                <h3>Django Framework</h3>
+                <p>Secure, battle-tested Python framework with built-in admin, ORM, and authentication — ideal for mission-critical systems.</p>
+            </div>
+        </div>
+        <div class="tech-card reveal">
+            <div class="tech-icon" style="background:rgba(14,107,168,0.2); color:#4da6db;">
+                <i class="fab fa-css3-alt"></i>
+            </div>
+            <div>
+                <div class="tech-sub">Frontend</div>
+                <h3>Tailwind CSS</h3>
+                <p>Utility-first CSS enabling rapid development of responsive, professional interfaces without bloated stylesheets.</p>
+            </div>
+        </div>
+        <div class="tech-card reveal">
+            <div class="tech-icon" style="background:rgba(0,196,180,0.12); color:var(--teal);">
+                <i class="fas fa-database"></i>
+            </div>
+            <div>
+                <div class="tech-sub">Data</div>
+                <h3>PostgreSQL</h3>
+                <p>Enterprise-grade relational database with ACID compliance, optimised for high-volume clinical and government workloads.</p>
+            </div>
+        </div>
+        <div class="tech-card reveal">
+            <div class="tech-icon" style="background:rgba(200,169,110,0.12); color:var(--gold);">
+                <i class="fas fa-server"></i>
+            </div>
+            <div>
+                <div class="tech-sub">Deployment</div>
+                <h3>Nginx + Gunicorn</h3>
+                <p>Production-proven stack supporting both on-premise bare-metal deployment and cloud hosting for maximum flexibility.</p>
+            </div>
+        </div>
+        <div class="tech-card reveal">
+            <div class="tech-icon" style="background:rgba(255,95,86,0.12); color:#ff7e76;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div>
+                <div class="tech-sub">Security</div>
+                <h3>Security First</h3>
+                <p>Multi-layered architecture: role-based access, encrypted data at rest, audit trails, and compliance-ready configurations.</p>
+            </div>
+        </div>
+        <div class="tech-card reveal">
+            <div class="tech-icon" style="background:rgba(138,99,210,0.12); color:#b08ae8;">
+                <i class="fas fa-network-wired"></i>
+            </div>
+            <div>
+                <div class="tech-sub">Architecture</div>
+                <h3>Multi-Tenant Ready</h3>
+                <p>Systems designed for deployment across multiple facilities or agencies from a single codebase with isolated data scoping.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="about-grid">
+        <div class="about-text reveal">
+            <span class="eyebrow">Who We Are</span>
+            <h2>Built for <span>Nigeria's</span><br>Institutions</h2>
+            <p>AudaxDynamics Enterprises specialises in transforming traditional paper-based systems into powerful, secure digital solutions that drive efficiency and accountability for healthcare institutions and government agencies.</p>
+            <p>With deep expertise in Django-based enterprise software, we deliver systems that meet the operational realities of Nigerian institutions — on-premise hardware, intermittent connectivity, multi-role access — not just theoretical requirements.</p>
+            <p>Our mission is to eliminate inefficiencies in institutional workflows by building software that actually gets used.</p>
+            <div class="about-stats">
+                <div class="about-stat">
+                    <div class="about-stat-val">50+</div>
+                    <div class="about-stat-label">Enterprise clients served</div>
+                </div>
+                <div class="about-stat">
+                    <div class="about-stat-val">99.9%</div>
+                    <div class="about-stat-label">System uptime delivered</div>
+                </div>
+                <div class="about-stat">
+                    <div class="about-stat-val">100+</div>
+                    <div class="about-stat-label">Systems digitalized</div>
+                </div>
+                <div class="about-stat">
+                    <div class="about-stat-val">24/7</div>
+                    <div class="about-stat-label">Support available</div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- Technology Stack -->
-    <section id="technology" class="py-20 bg-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
-                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                        Enterprise-Grade Technology
-                    </span>
-                </h2>
-                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
-                    Built on modern, scalable technologies that ensure security, performance, and reliability for mission-critical applications.
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-                            <i class="fab fa-python text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">Django Framework</h3>
-                            <p class="text-slate-400 text-sm">Python-based backend</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300">Robust, secure, and scalable web framework perfect for enterprise applications with built-in security features.</p>
+        <div class="about-features reveal">
+            <div class="about-feat">
+                <div class="about-feat-icon" style="background:rgba(14,107,168,0.15); color:#4da6db;">
+                    <i class="fas fa-building"></i>
                 </div>
-
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
-                            <i class="fab fa-css3-alt text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">Tailwind CSS</h3>
-                            <p class="text-slate-400 text-sm">Modern styling</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300">Utility-first CSS framework enabling rapid development of beautiful, responsive interfaces.</p>
-                </div>
-
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
-                            <i class="fab fa-font-awesome text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">FontAwesome</h3>
-                            <p class="text-slate-400 text-sm">Icon library</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300">Comprehensive icon library providing professional visual elements for intuitive user interfaces.</p>
-                </div>
-
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center">
-                            <i class="fab fa-js-square text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">jQuery & Vanilla JS</h3>
-                            <p class="text-slate-400 text-sm">Interactive frontend</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300">Powerful JavaScript libraries for creating dynamic, responsive user experiences and seamless interactions.</p>
-                </div>
-
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-database text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">Database Systems</h3>
-                            <p class="text-slate-400 text-sm">Enterprise storage</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300">Scalable database solutions optimized for enterprise workloads with backup and recovery systems.</p>
-                </div>
-
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700 hover:border-blue-500/30 transition-all">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-shield-alt text-white text-xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold">Security First</h3>
-                            <p class="text-slate-400 text-sm">Enterprise security</p>
-                        </div>
-                    </div>
-                    <p class="text-slate-300">Multi-layered security architecture with encryption, authentication, and compliance standards.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-20 bg-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-4xl lg:text-5xl font-bold mb-6">
-                        <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                            About AudaxDynamics
-                        </span>
-                    </h2>
-                    <div class="space-y-6 text-lg text-slate-300">
-                        <p>
-                            AudaxDynamics Enterprises specializes in transforming traditional paper-based systems into powerful, 
-                            secure digital solutions that drive efficiency and growth for enterprises and government institutions.
-                        </p>
-                        <p>
-                            With expertise spanning healthcare, human resources, inventory management, and enterprise resource planning, 
-                            we deliver comprehensive digital transformation services that meet the highest standards of security and compliance.
-                        </p>
-                        <p>
-                            Our mission is to eliminate inefficiencies in organizational workflows by providing robust, 
-                            scalable technology solutions that adapt to your specific business requirements.
-                        </p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-8 mt-10">
-                        <div>
-                            <div class="text-3xl font-bold text-blue-400 mb-2">100+</div>
-                            <div class="text-slate-300">Systems Digitalized</div>
-                        </div>
-                        <div>
-                            <div class="text-3xl font-bold text-teal-400 mb-2">50+</div>
-                            <div class="text-slate-300">Enterprise Clients</div>
-                        </div>
-                        <div>
-                            <div class="text-3xl font-bold text-green-400 mb-2">99.9%</div>
-                            <div class="text-slate-300">System Uptime</div>
-                        </div>
-                        <div>
-                            <div class="text-3xl font-bold text-orange-400 mb-2">24/7</div>
-                            <div class="text-slate-300">Support Available</div>
-                        </div>
-                    </div>
+                    <h4>Enterprise Focus</h4>
+                    <p>Large-scale solutions designed for complex, multi-department organisations with demanding data requirements.</p>
                 </div>
-                <div class="relative">
-                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl p-8 border border-slate-700">
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-building text-2xl text-blue-400"></i>
-                                <div>
-                                    <h4 class="text-lg font-semibold">Enterprise Focus</h4>
-                                    <p class="text-slate-400">Large-scale solutions for complex organizations</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-university text-2xl text-teal-400"></i>
-                                <div>
-                                    <h4 class="text-lg font-semibold">Government Ready</h4>
-                                    <p class="text-slate-400">Compliance and security for public sector</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-heartbeat text-2xl text-red-400"></i>
-                                <div>
-                                    <h4 class="text-lg font-semibold">Healthcare Expertise</h4>
-                                    <p class="text-slate-400">HIPAA compliant medical systems</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <i class="fas fa-cog text-2xl text-green-400"></i>
-                                <div>
-                                    <h4 class="text-lg font-semibold">Custom Solutions</h4>
-                                    <p class="text-slate-400">Tailored to your specific requirements</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div class="about-feat">
+                <div class="about-feat-icon" style="background:rgba(0,196,180,0.12); color:var(--teal);">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div>
+                    <h4>Government Ready</h4>
+                    <p>Proven deployments with state-level agencies. Security, audit trails, and compliance built in from the ground up.</p>
+                </div>
+            </div>
+            <div class="about-feat">
+                <div class="about-feat-icon" style="background:rgba(255,95,86,0.12); color:#ff7e76;">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div>
+                    <h4>Healthcare Expertise</h4>
+                    <p>Deep experience in clinical workflows — from outpatient registration to inpatient billing and pharmacy dispensing.</p>
+                </div>
+            </div>
+            <div class="about-feat">
+                <div class="about-feat-icon" style="background:rgba(200,169,110,0.12); color:var(--gold);">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div>
+                    <h4>Custom Solutions</h4>
+                    <p>Every system is tailored to your specific workflow — no generic templates, no forced fit.</p>
+                </div>
+            </div>
+            <div class="about-feat">
+                <div class="about-feat-icon" style="background:rgba(39,201,63,0.12); color:#4cd96a;">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div>
+                    <h4>On-Premise Deployment</h4>
+                    <p>Full support for bare-metal server deployments inside your facility — no mandatory cloud dependency.</p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold mb-6">
-                    <span class="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                        Start Your Digital Transformation
-                    </span>
-                </h2>
-                <p class="text-xl text-slate-300 max-w-3xl mx-auto">
-                    Ready to transform your paper-based systems? Let's discuss how AudaxDynamics can digitalize your operations.
-                </p>
-            </div>
+<!-- CONTACT -->
+<section id="contact">
+    <div class="contact-grid">
+        <div class="contact-info reveal">
+            <span class="eyebrow">Let's Talk</span>
+            <h2>Start Your Digital Transformation</h2>
+            <p>Ready to replace your paper-based systems? Tell us about your organisation and we'll scope a solution that fits your exact requirements and budget.</p>
 
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="space-y-8">
+            <div class="contact-items">
+                <div class="contact-item">
+                    <div class="contact-item-icon"><i class="fas fa-phone"></i></div>
                     <div>
-                        <h3 class="text-2xl font-bold mb-6">Get in Touch</h3>
-                        <div class="space-y-6">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-envelope text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold">Email</h4>
-                                    <p class="text-slate-300">contact@audaxdynamics.com</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-phone text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold">Phone</h4>
-                                    <p class="text-slate-300">+1 (555) 123-4567</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-map-marker-alt text-white"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold">Office</h4>
-                                    <p class="text-slate-300">Enterprise District, Tech Hub</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h4>Phone</h4>
+                        <p>0906 126-7856</p>
                     </div>
-
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div>
-                        <h4 class="text-lg font-semibold mb-4">Why Choose AudaxDynamics?</h4>
-                        <ul class="space-y-3 text-slate-300">
-                            <li class="flex items-center space-x-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span>Proven track record with enterprise clients</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span>Full-stack development capabilities</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span>Government-grade security standards</span>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                                <i class="fas fa-check-circle text-green-400"></i>
-                                <span>Ongoing support and maintenance</span>
-                            </li>
-                        </ul>
+                        <h4>Office</h4>
+                        <p>No. 7 Kabir A. Bashir Street, Farawa Layout, Kano</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="bg-slate-800/50 rounded-2xl p-8 border border-slate-700">
-                    <h3 class="text-2xl font-bold mb-6">Request Consultation</h3>
-                    <div class="space-y-6">
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">First Name</label>
-                                <input type="text" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Enter your first name">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Last Name</label>
-                                <input type="text" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Enter your last name">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="your.email@company.com">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Organization</label>
-                            <input type="text" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Your organization name">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">System Type</label>
-                            <select class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white">
-                                <option>Select system to digitalize</option>
-                                <option>Healthcare/Medical Records</option>
-                                <option>Document Management</option>
-                                <option>Human Resources</option>
-                                <option>Inventory Management</option>
-                                <option>Enterprise Resource Planning</option>
-                                <option>Custom Solution</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Project Details</label>
-                            <textarea rows="4" class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg focus:border-blue-500 focus:outline-none text-white" placeholder="Tell us about your current system and digitalization needs..."></textarea>
-                        </div>
-                        <button class="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-teal-600 rounded-lg font-semibold hover:from-blue-700 hover:to-teal-700 transition-all pulse-glow">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Request Consultation
-                        </button>
-                    </div>
+            <h4 style="font-family:'Space Grotesk',sans-serif; font-size:0.85rem; margin-bottom:1rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Why AudaxDynamics</h4>
+            <ul class="why-list">
+                <li><i class="fas fa-check"></i> Proven deployments with Nigerian institutions</li>
+                <li><i class="fas fa-check"></i> Full-stack Django development in-house</li>
+                <li><i class="fas fa-check"></i> On-premise & cloud deployment options</li>
+                <li><i class="fas fa-check"></i> Ongoing support and system maintenance</li>
+                <li><i class="fas fa-check"></i> Custom scope — no forced templates</li>
+            </ul>
+        </div>
+
+        <div class="contact-form reveal">
+            <h3>Request a Consultation</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="Abdullahi">
                 </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Musa">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" placeholder="you@organisation.gov.ng">
+            </div>
+            <div class="form-group">
+                <label>Organisation</label>
+                <input type="text" placeholder="Ministry / Hospital / Agency">
+            </div>
+            <div class="form-group">
+                <label>System Type</label>
+                <select>
+                    <option value="">Select a system to digitalize</option>
+                    <option>Electronic Medical Records (EMR)</option>
+                    <option>Drugs & Consumables Management</option>
+                    <option>Document Management System</option>
+                    <option>Human Resources Management</option>
+                    <option>Inventory Management</option>
+                    <option>Enterprise Resource Planning</option>
+                    <option>Custom Solution</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Project Details</label>
+                <textarea placeholder="Describe your current system, number of users, facilities involved, and any specific requirements..."></textarea>
+            </div>
+            <button class="btn-submit" id="submitBtn">
+                <i class="fas fa-paper-plane"></i> Send Request
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <div class="nav-logo" style="margin-bottom:1rem;">
+                <img src="{% static 'images/logo.png' %}" alt="AudaxDynamics">
+                <span class="nav-wordmark" style="font-size:1.2rem;">AudaxDynamics</span>
+            </div>
+            <p>Transforming Nigerian institutions through digital innovation. We convert paper-based systems into powerful, secure software solutions.</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-slate-950 border-t border-slate-800 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="col-span-2">
-                    <div class="flex items-center space-x-3 mb-6">
-                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-teal-600 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-code text-white text-lg"></i>
-                        </div>
-                        <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
-                            AudaxDynamics
-                        </span>
-                    </div>
-                    <p class="text-slate-300 mb-6 max-w-md">
-                        Transforming enterprises through digital innovation. We specialize in converting paper-based systems into powerful digital solutions.
-                    </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
-                            <i class="fab fa-linkedin text-white"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
-                            <i class="fab fa-twitter text-white"></i>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors">
-                            <i class="fab fa-github text-white"></i>
-                        </a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Solutions</h4>
-                    <ul class="space-y-2 text-slate-300">
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Electronic Medical Records</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Document Management</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Human Resources</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Inventory Management</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Enterprise Resource Planning</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Company</h4>
-                    <ul class="space-y-2 text-slate-300">
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">About Us</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Our Technology</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Case Studies</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Contact</a></li>
-                        <li><a href="#" class="hover:text-blue-400 transition-colors">Support</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-slate-400 text-sm">
-                    © 2025 AudaxDynamics Enterprises. All rights reserved.
-                </p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-slate-400 hover:text-blue-400 text-sm transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-slate-400 hover:text-blue-400 text-sm transition-colors">Terms of Service</a>
-                    <a href="#" class="text-slate-400 hover:text-blue-400 text-sm transition-colors">Security</a>
-                </div>
-            </div>
+        <div class="footer-col">
+            <h4>Solutions</h4>
+            <ul>
+                <li><a href="#solutions">Electronic Medical Records</a></li>
+                <li><a href="#solutions">Document Management</a></li>
+                <li><a href="#solutions">Human Resources</a></li>
+                <li><a href="#solutions">Drugs & Consumables</a></li>
+                <li><a href="#solutions">Enterprise Resource Planning</a></li>
+            </ul>
         </div>
-    </footer>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#technology">Our Technology</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact">Support</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© {% now "Y" %} AudaxDynamics Enterprises. All rights reserved.</p>
+        <div class="footer-legal">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </div>
+</footer>
 
 <script>
-    $(document).ready(function() {
-        // Mobile menu toggle
-        $('#mobile-menu-button').click(function() {
-            $('#mobile-menu').slideToggle(200);
-            $(this).find('i').toggleClass('fa-bars fa-times');
-        });
-        
-        // Close mobile menu when clicking a link
-        $('.nav-link').click(function() {
-            if ($(window).width() < 768) {
-                $('#mobile-menu').slideUp(200);
-                $('#mobile-menu-button').find('i').removeClass('fa-times').addClass('fa-bars');
-            }
-        });
-        
-        // Smooth scrolling for navigation links
-        $('.nav-link').on('click', function(e) {
-            e.preventDefault();
-            const target = $(this.getAttribute('href'));
-            if (target.length) {
-                $('html, body').animate({
-                    scrollTop: target.offset().top - 80
-                }, 1000);
-            }
-        });
+/* ── MOBILE NAV ──────────────────────────────────── */
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
 
-        // Navbar scroll effect
-        $(window).scroll(function() {
-            if ($(window).scrollTop() > 50) {
-                $('nav').addClass('bg-slate-900/95');
-            } else {
-                $('nav').removeClass('bg-slate-900/95');
-            }
-        });
+hamburger.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+});
 
-        // Form submission
-        $('button:contains("Request Consultation")').on('click', function(e) {
-            e.preventDefault();
-            alert('Thank you for your interest! We will contact you within 24 hours to schedule your consultation.');
-        });
+mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => mobileNav.classList.remove('open'));
+});
 
-        // Hero button actions
-        $('button:contains("Start Your Digital Transformation")').on('click', function(e) {
-            e.preventDefault();
-            $('html, body').animate({
-                scrollTop: $('#contact').offset().top - 80
-            }, 1000);
-        });
-
-        $('button:contains("View Our Solutions")').on('click', function(e) {
-            e.preventDefault();
-            $('html, body').animate({
-                scrollTop: $('#solutions').offset().top - 80
-            }, 1000);
-        });
-
-        // Add loading animation to cards
-        $('.card-hover').each(function(index) {
-            $(this).css('animation-delay', (index * 0.1) + 's');
-        });
+/* ── SMOOTH SCROLL ───────────────────────────────── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+});
+
+/* ── SCROLL REVEAL ───────────────────────────────── */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── TERMINAL ANIMATION ──────────────────────────── */
+const lines = [
+    { cls: 't-line t-prompt t-cmd', text: '$ audax deploy --env production' },
+    { cls: 't-line t-out', text: '▸ Checking system health...' },
+    { cls: 't-line t-ok',  text: '✓ PostgreSQL        [CONNECTED]' },
+    { cls: 't-line t-ok',  text: '✓ Gunicorn workers  [4 running]' },
+    { cls: 't-line t-ok',  text: '✓ Nginx proxy       [ACTIVE]' },
+    { cls: 't-line t-out', text: '▸ Loading AudaxEMR v2.4.1...' },
+    { cls: 't-line t-ok',  text: '✓ EMR module        [READY]' },
+    { cls: 't-line t-ok',  text: '✓ Pharmacy module   [READY]' },
+    { cls: 't-line t-ok',  text: '✓ Billing engine    [READY]' },
+    { cls: 't-line t-gold', text: '→ System online at audaxdynamics.com' },
+];
+
+const terminal = document.getElementById('terminal');
+
+function renderTerminal() {
+    terminal.innerHTML = '';
+    lines.forEach((line, i) => {
+        const div = document.createElement('div');
+        div.className = line.cls;
+        div.textContent = line.text;
+        div.style.animationDelay = `${i * 0.18}s`;
+        terminal.appendChild(div);
+    });
+    // cursor
+    const cursor = document.createElement('div');
+    cursor.className = 't-line t-prompt';
+    cursor.style.animationDelay = `${lines.length * 0.18}s`;
+    cursor.innerHTML = '$ <span class="t-cursor"></span>';
+    terminal.appendChild(cursor);
+}
+
+renderTerminal();
+// loop every 6s
+setInterval(renderTerminal, 6000);
+
+/* ── FORM SUBMIT ─────────────────────────────────── */
+document.getElementById('submitBtn').addEventListener('click', function() {
+    this.innerHTML = '<i class="fas fa-check"></i> Sent — we\'ll be in touch within 24 hours';
+    this.style.background = 'var(--teal)';
+    this.style.color = 'var(--void)';
+    this.disabled = true;
+});
 </script>
 
 </body>
 </html>
-{%endblock%}
+{% endblock %}
