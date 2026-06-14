@@ -13,8 +13,12 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
-ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',
+    'https://audaxdynamics.com',
+    'https://www.audaxdynamics.com',
+]
+ALLOWED_HOSTS = ['localhost','audaxdynamics.com', 'www.audaxdynamics.com', '.railway.app']
 
 
 # Application definition
