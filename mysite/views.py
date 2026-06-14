@@ -22,10 +22,25 @@ from .forms import (
 # ─────────────────────────────────────────────
 
 def index(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thanks! Your request has been received — we'll be in touch shortly.")
+            return redirect('index')
+        else:
+            messages.error(request, "Please correct the errors below and resubmit.")
+    else:
+        form = ContactForm()
+
     posts = BlogPost.objects.filter(published=True).order_by('-published_at')[:3]
     seo   = ServiceSEO.objects.all()
-    return render(request, 'mysite/index.html', {'posts': posts, 'seo': seo})
 
+    return render(request, 'mysite/index.html', {
+        'posts': posts,
+        'seo': seo,
+        'form': form,
+    })
 
 # ─────────────────────────────────────────────
 #  PUBLIC — BLOG

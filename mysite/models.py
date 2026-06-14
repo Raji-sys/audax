@@ -218,3 +218,33 @@ class ServiceSEO(models.Model):
         verbose_name_plural = "Service SEO"
     def __str__(self):
         return f"SEO: {self.service_name}"
+
+
+
+class ContactSubmission(models.Model):
+    SYSTEM_CHOICES = [
+        ('', 'Select a system to digitalize'),
+        ('emr', 'Electronic Medical Records (EMR)'),
+        ('drugs', 'Drugs & Consumables Management'),
+        ('hie', 'Health Information Exchange (HIE)'),
+        ('dms', 'Document Management System'),
+        ('hrms', 'Human Resources Management'),
+        ('inventory', 'Inventory Management'),
+        ('erp', 'Enterprise Resource Planning'),
+        ('custom', 'Custom Solution'),
+    ]
+
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    organisation = models.CharField(max_length=200)
+    system_type = models.CharField(max_length=100, choices=SYSTEM_CHOICES, blank=True)
+    details = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.organisation}"
+
+    class Meta:
+        ordering = ['-created_at']

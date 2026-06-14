@@ -1,9 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
-from .models import (
-    BlogPost, Client,
-    Invoice, Quotation, Proposal, CoverLetter, Receipt, LineItem,
-)
+from .models import *
 
 
 class BlogPostForm(forms.ModelForm):
@@ -121,4 +118,17 @@ class ReceiptForm(forms.ModelForm):
         widgets = {
             'payment_date': forms.DateInput(attrs={'type': 'date'}),
             'notes':        forms.Textarea(attrs={'rows': 3}),
+        }
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = ContactSubmission
+        fields = ['first_name', 'last_name', 'email', 'organisation', 'system_type', 'details']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': 'Abdullahi'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Musa'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'you@organisation.gov.ng'}),
+            'organisation': forms.TextInput(attrs={'placeholder': 'Ministry / Hospital / Agency'}),
+            'details': forms.Textarea(attrs={'placeholder': "Describe your current system, number of users, facilities involved, and any specific requirements..."}),
         }

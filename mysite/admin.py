@@ -1,10 +1,5 @@
 from django.contrib import admin
-from .models import (
-    BlogCategory, BlogPost,
-    Client, LineItem,
-    Invoice, Quotation, Proposal, CoverLetter, Receipt,
-    ServiceSEO,
-)
+from .models import *
 
 
 class LineItemInline(admin.TabularInline):
@@ -66,3 +61,12 @@ class ReceiptAdmin(admin.ModelAdmin):
 @admin.register(ServiceSEO)
 class ServiceSEOAdmin(admin.ModelAdmin):
     list_display = ['service_name', 'service_slug', 'updated_at']
+
+
+
+@admin.register(ContactSubmission)
+class ContactSubmissionAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'organisation', 'email', 'system_type', 'created_at', 'is_read')
+    list_filter = ('is_read', 'system_type', 'created_at')
+    search_fields = ('first_name', 'last_name', 'email', 'organisation', 'details')
+    readonly_fields = ('created_at',)
