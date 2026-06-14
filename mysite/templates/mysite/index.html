@@ -1594,14 +1594,13 @@ const lines = [
     { cls: 't-line t-out', text: '▸ Checking system health...' },
     { cls: 't-line t-ok',  text: '✓ PostgreSQL        [CONNECTED]' },
     { cls: 't-line t-ok',  text: '✓ Gunicorn workers  [4 running]' },
-    { cls: 't-line t-ok',  text: '✓ Nginx proxy       [ACTIVE]' },
-    { cls: 't-line t-out', text: '▸ Loading AudaxEMR v2.4.1...' },
-    { cls: 't-line t-ok',  text: '✓ EMR module        [READY]' },
-    { cls: 't-line t-ok',  text: '✓ Pharmacy module   [READY]' },
-    { cls: 't-line t-ok',  text: '✓ Billing engine    [READY]' },
+    { cls: 't-line t-out', text: '▸ Loading AudaxCore v2.4.1...' },
+    { cls: 't-line t-ok',  text: '✓ EMR & pharmacy    [READY]' },
+    { cls: 't-line t-ok',  text: '✓ Drug & consumables [READY]' },
+    { cls: 't-line t-ok',  text: '✓ HR, ERP & academic [READY]' },
+    { cls: 't-line t-ok',  text: '✓ Document mgmt     [READY]' },
     { cls: 't-line t-gold', text: '→ System online at audaxdynamics.com' },
 ];
-
 const terminal = document.getElementById('terminal');
 
 function renderTerminal() {
