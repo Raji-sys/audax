@@ -66,7 +66,7 @@ class ServiceSEOAdmin(admin.ModelAdmin):
 
 @admin.register(ContactSubmission)
 class ContactSubmissionAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'organisation', 'email', 'system_type', 'created_at', 'is_read')
+    list_display = ('first_name', 'last_name', 'organisation', 'email', 'phone', 'system_type', 'created_at', 'is_read')
     list_filter = ('is_read', 'system_type', 'created_at')
-    search_fields = ('first_name', 'last_name', 'email', 'organisation', 'details')
-    readonly_fields = ('created_at',)
+    search_fields = ('first_name', 'last_name', 'email', 'phone', 'organisation', 'details')
+    readonly_fields = ('created_at','details','system_type','phone','email','organisation','first_name','last_name')

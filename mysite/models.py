@@ -224,19 +224,21 @@ class ServiceSEO(models.Model):
 class ContactSubmission(models.Model):
     SYSTEM_CHOICES = [
         ('', 'Select a system to digitalize'),
+        ('custom', 'Custom Solution'),
         ('emr', 'Electronic Medical Records (EMR)'),
         ('drugs', 'Drugs & Consumables Management'),
         ('hie', 'Health Information Exchange (HIE)'),
+        ('academic', 'Academic / Training Management System'),
         ('dms', 'Document Management System'),
         ('hrms', 'Human Resources Management'),
         ('inventory', 'Inventory Management'),
         ('erp', 'Enterprise Resource Planning'),
-        ('custom', 'Custom Solution'),
     ]
 
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
     organisation = models.CharField(max_length=200)
     system_type = models.CharField(max_length=100, choices=SYSTEM_CHOICES, blank=True)
     details = models.TextField()

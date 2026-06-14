@@ -4,18 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
-from .models import (
-    BlogPost, BlogCategory,
-    Client, Invoice, Quotation, Proposal, CoverLetter, Receipt,
-    LineItem, ServiceSEO,
-)
-from .forms import (
-    BlogPostForm, ClientForm,
-    InvoiceForm, LineItemFormSet,
-    QuotationForm, QuotationLineItemFormSet,
-    ProposalForm, CoverLetterForm, ReceiptForm,
-)
-
+from .models import *
+from .forms import *
 
 # ─────────────────────────────────────────────
 #  PUBLIC — INDEX

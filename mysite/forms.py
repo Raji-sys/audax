@@ -129,6 +129,7 @@ class ContactForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'placeholder': 'Abdullahi'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Musa'}),
             'email': forms.EmailInput(attrs={'placeholder': 'you@organisation.gov.ng'}),
+            'phone': forms.TextInput(attrs={'placeholder': '080XXXXXXXX'}),
             'organisation': forms.TextInput(attrs={'placeholder': 'Ministry / Hospital / Agency'}),
             'details': forms.Textarea(attrs={'placeholder': "Describe your current system, number of users, facilities involved, and any specific requirements..."}),
         }
